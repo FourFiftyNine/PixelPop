@@ -1,0 +1,28 @@
+dependencies: \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/external/Box2D/Dynamics/Contacts/b2Contact.cpp \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/Contacts/b2Contact.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Common/b2Math.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Common/b2Settings.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Collision/b2Collision.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Collision/Shapes/b2Shape.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Common/b2BlockAllocator.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/b2Fixture.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/b2Body.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/Contacts/b2CircleContact.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/Contacts/b2PolygonContact.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/Contacts/b2EdgeAndCircleContact.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/Contacts/b2EdgeAndPolygonContact.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/Contacts/b2ChainAndCircleContact.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/Contacts/b2ChainAndPolygonContact.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/Contacts/b2ContactSolver.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/b2TimeStep.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Collision/b2TimeOfImpact.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Collision/b2Distance.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/b2World.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Common/b2StackAllocator.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/b2ContactManager.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Collision/b2BroadPhase.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Collision/b2DynamicTree.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Common/b2GrowableStack.h \
+  /Users/anthonysessa/Sites/games/PixelPop/frameworks/js-bindings/cocos2d-x/build/../external/Box2D/Dynamics/b2WorldCallbacks.h

@@ -7,35 +7,27 @@ var MyLayer = cc.LayerColor.extend({
     init: function() {
         this._super(cc.color(42, 42, 42, 255));
         this.setBoundries(Space);
-        this.scheduleUpdate();
         // this.testSprites(220);
-        this.loadLevel(res.Level1_json);
+        this.blockLevel(res.Level1_json);
         this.projectile = new Projectile();
+        console.log('this.projectile.sprite.getBoundingBox(): ', this.projectile.sprite.getBoundingBox());
+        this.scheduleUpdate();
 
         this.addChild(this.projectile);
-
-
-
-        // console.log('this.projectile.sprite.getBoundingBox(): ', this.projectile.sprite.getBoundingBox());
-        // console.log('this.projectile.sprite.getPosition(): ', this.projectile.sprite.getPosition());
-        // console.log('haha2')
-        // Space.setDefaultCollisionHandler(function(arb) {
-        //     console.log('arb: ', arb);
-        //     // console.log('projectile: ', projectile);
-        //     console.log('arb.a: ', arb.a);
-        //     var vx = arb.a.body.vx;
-        //     var vy = arb.a.body.vy;
-        //     console.log('vx: ', vx);
-        //     arb.a.body.setVel(cp.v(vx * -1, vy));
-        //     // console.log('a: ', a);
-        //     // console.log('b: ', b);
-        //     // console.log('c: ', c);
-        //     // console.log('ajjajaja');
-
-        //     return true;
-        // })
-
-
+    },
+    blockLevel: function(resourceJson) {
+        var level1 = ccs.load(resourceJson);
+        var pixels = level1.node.getChildren();
+        var sprites = [];
+        for (var i = 0; i < pixels.length; i++) {
+            // console.log('{x: pixels[i].x, y: pixels[i].y}: ', {x: pixels[i].x, y: pixels[i].y});
+            var sprite = new PixelBlock({x: pixels[i].x, y: pixels[i].y}, true);
+            // console.log(': ', );
+            sprite.color = pixels[i].color;
+            sprites.push(sprite);
+            this.addChild(sprite);
+        }
+        this.pixelBlocks = sprites;
     },
     loadLevel: function(resourceJson) {
         var level1 = ccs.load(resourceJson);
@@ -48,20 +40,20 @@ var MyLayer = cc.LayerColor.extend({
             this.addChild(sprite);
         }
 
-        function fuckWithLevel() {
-            setTimeout(function() {
-                for (var i = 0; i < sprites.length; i++) {
-                    sprites[i].removeStatic();
-                }
-                // setTimeout(function() {
-                //     sprites[10].setStatic();
-                //     sprites[40].setStatic();
-                //     sprites[50].setStatic();
-                //     sprites[60].setStatic();
-                //     sprites[60].setStatic();
-                // }.bind(this), 1200)
-            }.bind(this), 1000);
-        }
+        // function fuckWithLevel() {
+        //     setTimeout(function() {
+        //         for (var i = 0; i < sprites.length; i++) {
+        //             sprites[i].removeStatic();
+        //         }
+        //         // setTimeout(function() {
+        //         //     sprites[10].setStatic();
+        //         //     sprites[40].setStatic();
+        //         //     sprites[50].setStatic();
+        //         //     sprites[60].setStatic();
+        //         //     sprites[60].setStatic();
+        //         // }.bind(this), 1200)
+        //     }.bind(this), 1000);
+        // }
 
         // fuckWithLevel();
     },
@@ -129,9 +121,9 @@ var MyLayer = cc.LayerColor.extend({
         var lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
         // console.log('lwallRect: ', lwallRect);
 
-        var floor = this.floor.getBB();
+        var floorBB = this.floor.getBB();
         // console.log('floor ' , floor);
-        var floorRect = cc.rect(floor.l, floor.b + 40, floor.r, 2);
+        var floorRect = cc.rect(floorBB.l, floorBB.b + 40, floorBB.r, 2);
         // console.log('floorRect: ', floorRect);
 
         var ceilingBB = this.ceiling.getBB();
@@ -144,7 +136,7 @@ var MyLayer = cc.LayerColor.extend({
         var count = 1;
         var maxCount = num || 250;
         var interval = setInterval(function () {
-            if (count == maxCount) {
+            if (count === maxCount) {
                 clearInterval(interval);
             }
             var r = 255 - count;
@@ -199,11 +191,47 @@ var MyLayer = cc.LayerColor.extend({
             count++;
         }.bind(this), 10);
     },
+    checkBlockCollisions: function() {
+        var projBB = this.projectile.sprite.getBoundingBox();
+        for (var i = 0; i < this.pixelBlocks.length; i++) {
+            // console.log('this.pixelBlocks[i]: ', this.pixelBlocks[i]);
+            if (cc.rectIntersectsRect(this.pixelBlocks[i].collisionRect, projBB)) {
+                var pixelColRect = this.pixelBlocks[i].collisionRect;
+                console.log('hiiiii');
+                console.log('cc.rectIntersectsRect(pixelColRect, projBB): ', cc.rectIntersectsRect(pixelColRect, projBB));
+                var intersection = cc.rectIntersection(pixelColRect, projBB);
+                console.log('projBB: ', projBB);
+                console.log('intersection: ', intersection);
+                console.log('cc.rectGetMinX(projBB): ', cc.rectGetMinX(projBB));
+                console.log('cc.rectGetMinX(pixelColRect): ', cc.rectGetMinX(pixelColRect));
+
+                console.log('cc.rectGetMaxX(projBB): ', cc.rectGetMaxX(projBB));
+                console.log('cc.rectGetMaxX(pixelColRect): ', cc.rectGetMaxX(pixelColRect));
+
+                console.log('cc.rectGetMinY(projBB): ', cc.rectGetMinY(projBB));
+                console.log('cc.rectGetMinY(pixelColRect): ', cc.rectGetMinY(pixelColRect));
+
+                console.log('cc.rectGetMaxY(projBB): ', cc.rectGetMaxY(projBB));;
+                console.log('cc.rectGetMaxY(pixelColRect): ', cc.rectGetMaxY(pixelColRect));;
+
+                // if (this.projectile.vy < 0) {
+                //     if (intersection.y < cc.rectGetMinY())
+                // }
+                if (intersection.y + intersection.height === cc.rectGetMaxY(projBB)) {
+
+                    console.log('Hit bottom of block');
+                    this.projectile.vy *= -1;
+                }
+
+                debugger;
+            }
+        }
+    },
     setWallCollisions: function() {
         var rwallBB = this.rwall.getBB();
         this.rwallRect = cc.rect(rwallBB.l, rwallBB.b, 50, rwallBB.t);
         // console.log('rwallRect: ', rwallRect);
- 
+
         var lwallBB = this.lwall.getBB();
         this.lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
         // console.log('lwallRect: ', lwallRect);
@@ -214,28 +242,25 @@ var MyLayer = cc.LayerColor.extend({
 
         var ceilingBB = this.ceiling.getBB();
         this.ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 50, ceilingBB.r, 20);
-
     },
     checkWallCollisions: function() {
-        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.rwallRect)) {
+        var projBB = this.projectile.sprite.getBoundingBox();
+
+        if (
+            cc.rectIntersectsRect(projBB, this.rwallRect) ||
+            cc.rectIntersectsRect(projBB, this.lwallRect)) {
             this.projectile.vx *= -1;
         }
 
-        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.lwallRect)) {
-            this.projectile.vx *= -1;
-        }
-
-        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.floorRect)) {
-            this.projectile.vy *= -1;
-        }
-
-        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.ceilingRect)) {
+        if (
+            cc.rectIntersectsRect(projBB, this.floorRect) ||
+            cc.rectIntersectsRect(projBB, this.ceilingRect)) {
             this.projectile.vy *= -1;
         }
     },
     update:function(dt){
         var curPos = this.projectile.sprite.getPosition();
-
+        this.checkBlockCollisions();
         this.projectile.sprite.setPosition(curPos.x + this.projectile.vx, curPos.y + this.projectile.vy);
         this.checkWallCollisions();
         Space.step(dt);

@@ -89,6 +89,7 @@
     "predef"        : [
         "cp",
         "cc",
+        "ccs",
         "Space",
         "res"
     ]

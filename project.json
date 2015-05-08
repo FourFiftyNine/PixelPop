@@ -14,6 +14,7 @@
         "src/globals.js",
         "src/resource.js",
         "src/Projectile.js",
+        "src/PixelBlock.js",
         "src/PixelSprite.js",
         "src/app.js"
     ]

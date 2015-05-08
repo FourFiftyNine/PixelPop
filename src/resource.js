@@ -4,6 +4,7 @@ var res = {
     CloseSelected_png : "res/CloseSelected.png",
     // pixel : "res/rounded-square.png",
     projectile : "res/circle-30x30.png",
+    PixelBlock_png : "res/block-34x34.png",
     pixel : "res/circle-34x34.png",
     Row_json : "res/Row.json",
     Level1_json : "res/Level1.json",

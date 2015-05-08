@@ -10,7 +10,7 @@ var MyLayer = cc.LayerColor.extend({
         // this.testSprites(220);
         this.blockLevel(res.Level1_json);
         this.projectile = new Projectile();
-        console.log('this.projectile.sprite.getBoundingBox(): ', this.projectile.sprite.getBoundingBox());
+        // console.log('this.projectile.sprite.getBoundingBox(): ', this.projectile.sprite.getBoundingBox());
         this.scheduleUpdate();
 
         this.addChild(this.projectile);
@@ -20,12 +20,12 @@ var MyLayer = cc.LayerColor.extend({
         var pixels = level1.node.getChildren();
         var sprites = [];
         for (var i = 0; i < pixels.length; i++) {
-            // console.log('{x: pixels[i].x, y: pixels[i].y}: ', {x: pixels[i].x, y: pixels[i].y});
             var sprite = new PixelBlock({x: pixels[i].x, y: pixels[i].y}, true);
-            // console.log(': ', );
+            // var sprite = new PixelBlock({x: 300, y: 400}, true);
             sprite.color = pixels[i].color;
             sprites.push(sprite);
             this.addChild(sprite);
+            // break;
         }
         this.pixelBlocks = sprites;
     },
@@ -173,57 +173,92 @@ var MyLayer = cc.LayerColor.extend({
 
             var rwallBB = this.rwall.getBB();
             var rwallRect = cc.rect(rwallBB.l, rwallBB.b, 10, rwallBB.t);
-            console.log('rwallRect: ', rwallRect);
+            // console.log('rwallRect: ', rwallRect);
 
             var lwallBB = this.lwall.getBB();
             var lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
-            console.log('lwallRect: ', lwallRect);
+            // console.log('lwallRect: ', lwallRect);
 
             var floor = this.floor.getBB();
             var floorRect = cc.rect(floor.l, floor.b + 40, floor.r, 2);
-            console.log('floorRect: ', floorRect);
+            // console.log('floorRect: ', floorRect);
 
             var ceilingBB = this.ceiling.getBB();
             var ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 40, ceilingBB.r, 2);
-            console.log('ceilingRect: ', ceilingRect);
+            // console.log('ceilingRect: ', ceilingRect);
 
             this.addChild(sprite);
             count++;
         }.bind(this), 10);
     },
     checkBlockCollisions: function() {
-        var projBB = this.projectile.sprite.getBoundingBox();
+        var projBB = this.projectile.getVelocityBoundingBox();
+        // console.log('projBB: ', projBB);
         for (var i = 0; i < this.pixelBlocks.length; i++) {
             // console.log('this.pixelBlocks[i]: ', this.pixelBlocks[i]);
             if (cc.rectIntersectsRect(this.pixelBlocks[i].collisionRect, projBB)) {
                 var pixelColRect = this.pixelBlocks[i].collisionRect;
-                console.log('hiiiii');
-                console.log('cc.rectIntersectsRect(pixelColRect, projBB): ', cc.rectIntersectsRect(pixelColRect, projBB));
+                // console.log('hiiiii');
+                // console.log('cc.rectIntersectsRect(pixelColRect, projBB): ', cc.rectIntersectsRect(pixelColRect, projBB));
                 var intersection = cc.rectIntersection(pixelColRect, projBB);
-                console.log('projBB: ', projBB);
-                console.log('intersection: ', intersection);
-                console.log('cc.rectGetMinX(projBB): ', cc.rectGetMinX(projBB));
-                console.log('cc.rectGetMinX(pixelColRect): ', cc.rectGetMinX(pixelColRect));
+                // console.log('projBB: ', projBB);
+                // console.log('intersection: ', intersection);
+                // console.log('cc.rectGetMinX(projBB): ', cc.rectGetMinX(projBB));
+                // console.log('cc.rectGetMinX(pixelColRect): ', cc.rectGetMinX(pixelColRect));
 
-                console.log('cc.rectGetMaxX(projBB): ', cc.rectGetMaxX(projBB));
-                console.log('cc.rectGetMaxX(pixelColRect): ', cc.rectGetMaxX(pixelColRect));
+                // console.log('cc.rectGetMaxX(projBB): ', cc.rectGetMaxX(projBB));
+                // console.log('cc.rectGetMaxX(pixelColRect): ', cc.rectGetMaxX(pixelColRect));
 
-                console.log('cc.rectGetMinY(projBB): ', cc.rectGetMinY(projBB));
-                console.log('cc.rectGetMinY(pixelColRect): ', cc.rectGetMinY(pixelColRect));
+                // console.log('cc.rectGetMinY(projBB): ', cc.rectGetMinY(projBB));
+                // console.log('cc.rectGetMinY(pixelColRect): ', cc.rectGetMinY(pixelColRect));
 
-                console.log('cc.rectGetMaxY(projBB): ', cc.rectGetMaxY(projBB));;
-                console.log('cc.rectGetMaxY(pixelColRect): ', cc.rectGetMaxY(pixelColRect));;
+                // console.log('cc.rectGetMaxY(projBB): ', cc.rectGetMaxY(projBB));;
+                // console.log('cc.rectGetMaxY(pixelColRect): ', cc.rectGetMaxY(pixelColRect));;
 
                 // if (this.projectile.vy < 0) {
                 //     if (intersection.y < cc.rectGetMinY())
                 // }
-                if (intersection.y + intersection.height === cc.rectGetMaxY(projBB)) {
+                if (intersection.x === cc.rectGetMinX(projBB)  &&
+                    intersection.y === cc.rectGetMinY(pixelColRect)) {
 
                     console.log('Hit bottom of block');
                     this.projectile.vy *= -1;
+                    this.pixelBlocks[i].collisionRect = null;
+                    this.pixelBlocks[i].removeFromParent(true);
+                    this.pixelBlocks.splice(i, 1);
                 }
 
-                debugger;
+                if (intersection.x === cc.rectGetMinX(pixelColRect)  &&
+                    intersection.y === cc.rectGetMinY(projBB)) {
+
+                    console.log('Hit left of block');
+                    this.projectile.vx *= -1;
+                    this.pixelBlocks[i].collisionRect = null;
+                    this.pixelBlocks[i].removeFromParent(true);
+                    this.pixelBlocks.splice(i, 1);
+                }
+
+                if (intersection.x === cc.rectGetMinX(projBB)  &&
+                    intersection.y === cc.rectGetMinY(projBB)) {
+
+                    console.log('Hit right of block');
+                    this.projectile.vx *= -1;
+                    this.pixelBlocks[i].collisionRect = null;
+                    this.pixelBlocks[i].removeFromParent(true);
+                    this.pixelBlocks.splice(i, 1);
+                }
+
+                if (intersection.x === cc.rectGetMinX(projBB)  &&
+                    intersection.y === cc.rectGetMinY(projBB)) {
+
+                    console.log('Hit top of block');
+                    this.projectile.vy *= -1;
+                    this.pixelBlocks[i].collisionRect = null;
+                    this.pixelBlocks[i].removeFromParent(true);
+                    this.pixelBlocks.splice(i, 1);
+                }
+
+                // debugger;
             }
         }
     },

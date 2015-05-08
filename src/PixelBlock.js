@@ -17,7 +17,7 @@ var PixelBlock = cc.PhysicsSprite.extend({
 
             this.body.setPos(cp.v(this.pos.x, this.pos.y));
             this.shape = Space.addShape(new cp.CircleShape(this.body, this.getContentSize().width / 2, cp.vzero));
-            this.shape.setElasticity(elasticity || 0.2);
+            this.shape.setElasticity(1);
             this.shape.setFriction(friction || 0.8);
         }
         this.setCollisionRect();

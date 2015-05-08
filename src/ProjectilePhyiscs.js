@@ -6,7 +6,7 @@ var Projectile = cc.Node.extend({
         this.name = 'PixelSprite';
         // this.speed = .5;
         this.vx = 20;
-        this.vy = -30;
+        this.vy = -3;
 
         this.scheduleUpdate();
         console.log('after3');

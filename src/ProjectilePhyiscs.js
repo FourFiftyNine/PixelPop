@@ -6,7 +6,7 @@ var Projectile = cc.Node.extend({
         this.name = 'PixelSprite';
         // this.speed = .5;
         this.vx = 20;
-        this.vy = -3;
+        this.vy = -30;
 
         this.scheduleUpdate();
         console.log('after3');
@@ -106,6 +106,7 @@ var Projectile = cc.Node.extend({
         // body.sanityCheck();
     },
     update: function(dt) {
+        this.body.applyForce(cc.v(100, 100), cp.vzero)
         // Space.step(dt);
         // console.log(dt);
         // var currentPos = this.sprite.body.getPos();

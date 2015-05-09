@@ -12,7 +12,7 @@ var PixelSprite = cc.PhysicsSprite.extend({
         if (isStatic) {
             this.body = new cp.StaticBody();
             this.body.setPos(cp.v(this.pos.x, this.pos.y));
-            this.shape = Space.addStaticShape(new cp.CircleShape(this.body, this.getContentSize().width / 2, cp.vzero));
+            this.shape = Space.addStaticShape(new cp.BoxShape(this.body, this.getContentSize().width, this.getContentSize().height));
 
         } else {
             this.body = Space.addBody(new cp.Body(this.mass, cp.momentForCircle(this.mass, this.getContentSize().width, this.getContentSize().height, cp.vzero)));

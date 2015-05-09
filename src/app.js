@@ -14,13 +14,97 @@ var MyLayer = cc.LayerColor.extend({
         this.scheduleUpdate();
 
         this.addChild(this.projectile);
+        var debugNode = new cc.PhysicsDebugNode(Space);
+        debugNode.visible = true;
+        this.addChild(debugNode);
+        var what = cp.v.lerp(cp.v(100, 100), cp.v(500, 500), 10);
+        console.log('what: ', what);
+        this.projvy = 760;
+        this.projxy = 10;
+        this.projectile.sprite.body.applyForce(cp.v(10, 760), cp.vzero);
+        // this.projvy = 520;
+        // this.projvx = 800;
+        Space.setDefaultCollisionHandler(function(arb) {
+            var n = arb.getContactPointSet()[0].normal;
+            console.log('n: ', n);
+            if (Math.abs(n.y) > 0.7071) {
+                if (n.y >= 0) {
+                    console.log('up');
+                        this.projvy *= -1;
+
+                }
+                if (n.y <= 0) {
+                    console.log('down');
+                        this.projvy *= -1;
+
+                }
+            } else {
+                if (n.x >= 0) {
+                    console.log('right');
+                        this.projvx *= -1;
+
+                }
+                if (n.x <= 0) {
+                    console.log('left');
+                        this.projvx *= -1;
+
+                }
+            }
+            this.projectile.sprite.body.applyForce(cp.v(10, 760), cp.vzero);
+
+            // if(n.y > 0.7071){ // ~ cosine of 45 degrees
+            //   if(n.y > 0.0){
+            //     console.log('up');
+            //     this.projvy *= -1;
+
+            //     // up
+            //   } else {
+            //     console.log('down');
+            //     this.projvy *= -1;
+
+            //     // down
+            //   }
+            // } else {
+            //   if(n.x > 0.0){
+            //     console.log('right');
+            //     this.projvx *= -1;
+
+            //     // right
+            //   } else {
+            //     console.log('left');
+            //     this.projvx *= -1;
+
+            //     // left
+            //   }
+            // }
+            // console.log('arb.getContactPointSet(): ', arb.getContactPointSet());;
+            // console.log('cp.Arbiter.getNormal(arb, 0): ', Space.Arbiter.getNormal(arb, 0));
+            // debugger;
+            // console.log('this.projvy: ', this.projvy);
+            // this.projvy *= -1;
+            // console.log('this.projvy: ', this.projvy);
+            // console.log('arb: ', arb);
+            // console.log('projectile: ', projectile);
+            // console.log('arb.a: ', arb.a);
+            // var vx = arb.a.body.vx;
+            // var vy = arb.a.body.vy;
+            // console.log('vx: ', vx);
+            // console.log('a: ', a);
+            // console.log('b: ', b);
+            // console.log('c: ', c);
+            // console.log('ajjajaja');
+
+            return true;
+        }.bind(this));
+
+
     },
     blockLevel: function(resourceJson) {
         var level1 = ccs.load(resourceJson);
         var pixels = level1.node.getChildren();
         var sprites = [];
         for (var i = 0; i < pixels.length; i++) {
-            var sprite = new PixelBlock({x: pixels[i].x, y: pixels[i].y}, true);
+            var sprite = new PixelSprite({x: pixels[i].x, y: pixels[i].y}, true);
             // var sprite = new PixelBlock({x: 300, y: 400}, true);
             sprite.color = pixels[i].color;
             sprites.push(sprite);
@@ -107,9 +191,6 @@ var MyLayer = cc.LayerColor.extend({
         this.rwall = rwall;
         this.floor = floor;
         this.ceiling = ceiling;
-        // var debugNode = new cc.PhysicsDebugNode(Space);
-        // debugNode.visible = true;
-        // this.addChild(debugNode);
 
         var rwallBB = this.rwall.getBB();
         // console.log('rwallBB: ', rwallBB);
@@ -192,75 +273,7 @@ var MyLayer = cc.LayerColor.extend({
         }.bind(this), 10);
     },
     checkBlockCollisions: function() {
-        var projBB = this.projectile.getVelocityBoundingBox();
-        // console.log('projBB: ', projBB);
-        for (var i = 0; i < this.pixelBlocks.length; i++) {
-            // console.log('this.pixelBlocks[i]: ', this.pixelBlocks[i]);
-            if (cc.rectIntersectsRect(this.pixelBlocks[i].collisionRect, projBB)) {
-                var pixelColRect = this.pixelBlocks[i].collisionRect;
-                // console.log('hiiiii');
-                // console.log('cc.rectIntersectsRect(pixelColRect, projBB): ', cc.rectIntersectsRect(pixelColRect, projBB));
-                var intersection = cc.rectIntersection(pixelColRect, projBB);
-                // console.log('projBB: ', projBB);
-                // console.log('intersection: ', intersection);
-                // console.log('cc.rectGetMinX(projBB): ', cc.rectGetMinX(projBB));
-                // console.log('cc.rectGetMinX(pixelColRect): ', cc.rectGetMinX(pixelColRect));
 
-                // console.log('cc.rectGetMaxX(projBB): ', cc.rectGetMaxX(projBB));
-                // console.log('cc.rectGetMaxX(pixelColRect): ', cc.rectGetMaxX(pixelColRect));
-
-                // console.log('cc.rectGetMinY(projBB): ', cc.rectGetMinY(projBB));
-                // console.log('cc.rectGetMinY(pixelColRect): ', cc.rectGetMinY(pixelColRect));
-
-                // console.log('cc.rectGetMaxY(projBB): ', cc.rectGetMaxY(projBB));;
-                // console.log('cc.rectGetMaxY(pixelColRect): ', cc.rectGetMaxY(pixelColRect));;
-
-                // if (this.projectile.vy < 0) {
-                //     if (intersection.y < cc.rectGetMinY())
-                // }
-                if (intersection.x === cc.rectGetMinX(projBB)  &&
-                    intersection.y === cc.rectGetMinY(pixelColRect)) {
-
-                    console.log('Hit bottom of block');
-                    this.projectile.vy *= -1;
-                    this.pixelBlocks[i].collisionRect = null;
-                    this.pixelBlocks[i].removeFromParent(true);
-                    this.pixelBlocks.splice(i, 1);
-                }
-
-                if (intersection.x === cc.rectGetMinX(pixelColRect)  &&
-                    intersection.y === cc.rectGetMinY(projBB)) {
-
-                    console.log('Hit left of block');
-                    this.projectile.vx *= -1;
-                    this.pixelBlocks[i].collisionRect = null;
-                    this.pixelBlocks[i].removeFromParent(true);
-                    this.pixelBlocks.splice(i, 1);
-                }
-
-                if (intersection.x === cc.rectGetMinX(projBB)  &&
-                    intersection.y === cc.rectGetMinY(projBB)) {
-
-                    console.log('Hit right of block');
-                    this.projectile.vx *= -1;
-                    this.pixelBlocks[i].collisionRect = null;
-                    this.pixelBlocks[i].removeFromParent(true);
-                    this.pixelBlocks.splice(i, 1);
-                }
-
-                if (intersection.x === cc.rectGetMinX(projBB)  &&
-                    intersection.y === cc.rectGetMinY(projBB)) {
-
-                    console.log('Hit top of block');
-                    this.projectile.vy *= -1;
-                    this.pixelBlocks[i].collisionRect = null;
-                    this.pixelBlocks[i].removeFromParent(true);
-                    this.pixelBlocks.splice(i, 1);
-                }
-
-                // debugger;
-            }
-        }
     },
     setWallCollisions: function() {
         var rwallBB = this.rwall.getBB();
@@ -279,24 +292,30 @@ var MyLayer = cc.LayerColor.extend({
         this.ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 50, ceilingBB.r, 20);
     },
     checkWallCollisions: function() {
-        var projBB = this.projectile.sprite.getBoundingBox();
-
-        if (
-            cc.rectIntersectsRect(projBB, this.rwallRect) ||
-            cc.rectIntersectsRect(projBB, this.lwallRect)) {
+        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.rwallRect)) {
             this.projectile.vx *= -1;
         }
 
-        if (
-            cc.rectIntersectsRect(projBB, this.floorRect) ||
-            cc.rectIntersectsRect(projBB, this.ceilingRect)) {
+        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.lwallRect)) {
+            this.projectile.vx *= -1;
+        }
+
+        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.floorRect)) {
+            this.projectile.vy *= -1;
+        }
+
+        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.ceilingRect)) {
             this.projectile.vy *= -1;
         }
     },
+
     update:function(dt){
-        var curPos = this.projectile.sprite.getPosition();
-        this.checkBlockCollisions();
-        this.projectile.sprite.setPosition(curPos.x + this.projectile.vx, curPos.y + this.projectile.vy);
+        // console.log('this.projvy: ', this.projvy);
+        // arb.a.body.setVel(cp.v(vx, vy * -1));
+        // this.projectile.sprite.body.setVel(cp.v(this.projvx, this.projvy));
+        // var curPos = this.projectile.sprite.getPosition();
+        // this.checkBlockCollisions();
+        // this.projectile.sprite.setPosition(curPos.x + this.projectile.vx, curPos.y + this.projectile.vy);
         this.checkWallCollisions();
         Space.step(dt);
     }

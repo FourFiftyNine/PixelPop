@@ -91,7 +91,12 @@
         "cc",
         "ccs",
         "Space",
-        "res"
+        "res",
+        "PROJECTILE_TYPE",
+        "WALL_TYPE",
+        "BLOCK_TYPE",
+
+
     ]
     // Custom Globals
 

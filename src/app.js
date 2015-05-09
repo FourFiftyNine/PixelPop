@@ -8,204 +8,185 @@ var MyLayer = cc.LayerColor.extend({
         this.projectile = new Projectile();
         this._super(cc.color(42, 42, 42, 255));
         this.setBoundries(Space);
-        this.projectile.sprite.shape.setCollisionType(1);
-        this.ceiling.setCollisionType(2);
-        this.floor.setCollisionType(2);
-        this.rwall.setCollisionType(2);
-        this.lwall.setCollisionType(2);
+        this.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
+        this.ceiling.setCollisionType(WALL_TYPE);
+        this.floor.setCollisionType(WALL_TYPE);
+        this.rwall.setCollisionType(WALL_TYPE);
+        this.lwall.setCollisionType(WALL_TYPE);
         this.blockLevel(res.Level1_json);
-        this.projvy = 1250;
-        this.projvx = 422;
-        Space.setDefaultCollisionHandler(function(arb) {
-            // debugger;
-            console.log('setDefaultCollisionHandler');
-                // debugger;
-
-        });
-        Space.addCollisionHandler(1, 2,
-            function begin(arb) {
-                console.log('----------WALL--------------');
-                // debugger;
-                var n = arb.getContactPointSet()[0].normal;
-                console.log('n: ', n);
-                if (Math.abs(n.y) > 0.7071) {
-                    if (Math.abs(n.y) >= 0) {
-                        console.log('up');
-                        console.log('this.projvy: ', this.projvy);
-                            this.projvy *= -1;
-                            // debugger;
-                    }
-                    // if (n.y <= 0) {
-                    //     console.log('down');
-                    //         this.projvy *= -1;
-                    // }
-                } else {
-                    if (Math.abs(n.x) >= 0) {
-                        console.log('right');
-                            this.projvx *= -1;
-
-                    }
-                    // if (n.x <= 0) {
-                    //     console.log('left');
-                    //         this.projvx *= -1;
-
-                    // }
-                }
-                return true;
-            }.bind(this),
-            function preSolve() {
-                console.log('preSolve');
-                // debugger;
-                return true;
-            },
-            function postSolve() {
-                console.log('postSolve');
-            },
-            function separate() {
-                console.log('separate');
-            }
-        );
+        this.projvy = 950;
+        this.projvx = 320;
+        this.removeEntitites = [];
+        this.blockRemovalQueued = false;
+        this.scheduleUpdate();
 
 
-        Space.addCollisionHandler(1, 3,
-            function begin(arb) {
-                console.log('----------BLOCK--------------');
-                // debugger;
-                var n = arb.getContactPointSet()[0].normal;
-                console.log('n: ', n);
-                if (Math.abs(n.y) > 0.7071) {
-                    if (Math.abs(n.y) >= 0) {
-                        console.log('up');
-                        console.log('this.projvy: ', this.projvy);
-                            this.projvy *= -1;
-                            // debugger;
-                    }
-                    // if (n.y <= 0) {
-                    //     console.log('down');
-                    //         this.projvy *= -1;
+        // Space.setDefaultCollisionHandler(function(arb) {
+        //     // cc.log('Space.setDefaultCollisionHandler: ', setDefaultCollisionHandler);
+        // });
 
-                    // }
-                } else {
-                    if (Math.abs(n.x) >= 0) {
-                        console.log('right');
-                            this.projvx *= -1;
-
-                    }
-                    // if (n.x <= 0) {
-                    //     console.log('left');
-                    //         this.projvx *= -1;
-
-                    // }
-                }
-                return true;
-
-            }.bind(this),
-            function preSolve(a, b) {
-                debugger;
-                console.log('a: ', a);
-                console.log('b: ', b);
-                console.log('preSolve');
-                return;
-            },
-            null, null
-        );
+        this.blockCollisionHandler();
+        // Wall Collision
+        Space.addCollisionHandler(PROJECTILE_TYPE, WALL_TYPE, this.wallCollisionBegin.bind(this), null, null, null);
 
         // this.testSprites(220);
-        // console.log('this.projectile.sprite.getBoundingBox(): ', this.projectile.sprite.getBoundingBox());
-        this.scheduleUpdate();
+        // cc.log('this.projectile.sprite.getBoundingBox(): ', this.projectile.sprite.getBoundingBox());
 
         this.addChild(this.projectile);
         var debugNode = new cc.PhysicsDebugNode(Space);
         debugNode.visible = true;
         this.addChild(debugNode);
-        var what = cp.v.lerp(cp.v(100, 100), cp.v(500, 500), 10);
-        console.log('what: ', what);
-        // this.projvy = 760;
-        // this.projxy = 10;
-        // this.projectile.sprite.body.applyForce(cp.v(10, 760), cp.vzero);
+    },
+    wallCollisionBegin: function(arb) {
+        var n = arb.getNormal(0);
+        if (Math.abs(n.y) > 0.7071) {
+            if (Math.abs(n.y) >= 0) {
+                // cc.log('up');
+                // cc.log('this.projvy: ', this.projvy);
+                    this.projvy *= -1;
+                    // debugger;
+            }
+            // if (n.y <= 0) {
+            //     cc.log('down');
+            //         this.projvy *= -1;
+            // }
+        } else {
+            if (Math.abs(n.x) >= 0) {
+                // cc.log('right');
+                    this.projvx *= -1;
 
+            }
+            // if (n.x <= 0) {
+            //     cc.log('left');
+            //         this.projvx *= -1;
 
+            // }
+        }
+        return true;
+    },
+    postStepRemoveBlock: function(shapeToRemove) {
+        cc.log('arguments: ', arguments);
+        cc.log('postStepRemoveBlock');
+        cc.log('shapeToRemove: ', shapeToRemove);
+        shapeToRemove.body.sprite.removeStatic();
+        // shapeToRemove.setSensor(true);
+        // Space.removeBody(shapeToRemove.body);
+        // debugger;
+        // Space.removeShape(shapeToRemove);
+        this.blockRemovalQueued = false;
+        // debugger;
+        // if (this.removeEntitites.length) {
+        //     for (var i = 0; i < this.removeEntitites.length; i++) {
+        //         cc.log(
+        //             'this.removeEntitites[i]: ',
+        //             this.removeEntitites[i]
+        //         );
 
-        // Space.setDefaultCollisionHandler(function(arb) {
-        //     var n = arb.getContactPointSet()[0].normal;
-        //     // console.log('n.mult(1): ', n.mult(1));
-        //     // this.projvy *= -n.y;
-        //     // this.projvx *= -n.x;
-        //     // console.log('n: ', n);
-        //     console.log('n.y: ', n.y);
+        //         Space.removeBody(this.removeEntitites[i].shape.body);
+        //         Space.removeShape(this.removeEntitites[i].shape);
+        //         // delete this.removeEntitites[i];
+        //     };
+        //     debugger;
+        // }
+    },
+    blockCollisionHandler: function() {
+        Space.addCollisionHandler(PROJECTILE_TYPE, BLOCK_TYPE,
+            function begin(arbiter, space) {
+                var normal = arbiter.getNormal(0);
+                cc.log('arbiter.getShapes(): ', arbiter.getShapes());
+                cc.log('[Block Collision] begin()---------------------');
+                cc.log('[Block Collision] begin: arbiter: ', arbiter);
+                cc.log('[Block Collision] begin: space: ', space);
+                cc.log('[Block Collision] begin: normal: ', normal);
+                cc.log('[Block Collision] this.blockRemovalQueued: ', this.blockRemovalQueued);
+                // this.removeEntitites.push({
+                //     shape: arbiter.b,
+                //     body: arbiter.body_b
+                // });
+                //
+                if (this.blockRemovalQueued === true) {
+                    return false;
+                }
 
-        //     if (Math.abs(n.y) > 0.7071) {
-        //         if (n.y >= 0) {
-        //             console.log('up');
-        //             console.log('this.projvy: ', this.projvy);
-        //                 this.projvy *= -1;
+                if (Math.abs(normal.y) === 1) {
+                    this.projvy *= -1;
+                    cc.log('[Block Collision] begin: normal.y is 1: ', normal.y);
+                    Space.addPostStepCallback(this.postStepRemoveBlock.bind(this, arbiter.b));
+                    this.blockRemovalQueued = true;
+                    // debugger;
+                    return false;
+                } else if (Math.abs(normal.x) === 1) {
+                    this.projvx *= -1;
+                    cc.log('[Block Collision] begin: normal.x is 1: ', normal.x);
+                    Space.addPostStepCallback(this.postStepRemoveBlock.bind(this, arbiter.b));
+                    this.blockRemovalQueued = true;
+                    // debugger;
 
-        //         }
-        //         if (n.y <= 0) {
-        //             console.log('down');
-        //                 this.projvy *= -1;
+                    return false;
+                }
+                return true;
+                debugger;
 
-        //         }
-        //     } else {
-        //         if (n.x >= 0) {
-        //             console.log('right');
-        //                 this.projvx *= -1;
+                // debugger;
+                // artbi
+                // cc.log('n: ', n);
+                if (normal.y === 1) {
+                    cc.log('[Block Collision] begin: normal.y is 1: ', normal.y);
+                }
+                // if (Math.abs(n.y) > 0.7071) {
+                if (Math.abs(normal.y) >= 0) {
+                    this.projvy *= -1;
+                    cc.log('[Block Collision: change y velocity]: ', this.projvy);
+                    // return false;
 
-        //         }
-        //         if (n.x <= 0) {
-        //             console.log('left');
-        //                 this.projvx *= -1;
+                    // if (normal.y <= 0) {
+                    //     cc.log('down');
+                    //         this.projvy *= -1;
 
-        //         }
-        //     }
-        //     // this.projectile.sprite.body.applyForce(cp.v(10, 760), cp.vzero);
+                    // }
+                } else {
+                    if (Math.abs(normal.x) >= 0) {
+                        // cc.log('right');
+                            this.projvx *= -1;
 
-        //     // // if(n.y > 0.7071){ // ~ cosine of 45 degrees
-        //     // //   if(n.y > 0.0){
-        //     // //     console.log('up');
-        //     //     this.projvy *= -1;
+                    }
+                    // if (normal.x <= 0) {
+                    //     cc.log('left');
+                    //         this.projvx *= -1;
 
-        //     //     // up
-        //     //   } else {
-        //     //     console.log('down');
-        //     //     this.projvy *= -1;
+                    // }
+                }
+                return true;
 
-        //     //     // down
-        //     //   }
-        //     // } else {
-        //     //   if(n.x > 0.0){
-        //     //     console.log('right');
-        //     //     this.projvx *= -1;
-
-        //     //     // right
-        //     //   } else {
-        //     //     console.log('left');
-        //     //     this.projvx *= -1;
-
-        //     //     // left
-        //     //   }
-        //     // }
-        //     // console.log('arb.getContactPointSet(): ', arb.getContactPointSet());;
-        //     // console.log('cp.Arbiter.getNormal(arb, 0): ', Space.Arbiter.getNormal(arb, 0));
-        //     // debugger;
-        //     // console.log('this.projvy: ', this.projvy);
-        //     // this.projvy *= -1;
-        //     // console.log('this.projvy: ', this.projvy);
-        //     // console.log('arb: ', arb);
-        //     // console.log('projectile: ', projectile);
-        //     // console.log('arb.a: ', arb.a);
-        //     // var vx = arb.a.body.vx;
-        //     // var vy = arb.a.body.vy;
-        //     // console.log('vx: ', vx);
-        //     // console.log('a: ', a);
-        //     // console.log('b: ', b);
-        //     // console.log('c: ', c);
-        //     // console.log('ajjajaja');
-
-        //     return true;
-        // }.bind(this));
-
-
+            }.bind(this),
+            function preSolve(arb, space) {
+                var n = arb.getContactPointSet()[0].normal;
+                cc.log('[Block Collision] preSolve(arb, space)');
+                cc.log('[Block Collision] preSolve: arb: ', arb);
+                cc.log('[Block Collision] preSolve: space: ', space);
+                cc.log('[Block Collision] preSolve: arb normal: ', n);
+                // debugger;
+                return true;
+            },
+            function postSolve(arb, space) {
+                cc.log('[Block Collision] postSolve(arb, space)');
+                cc.log('[Block Collision] postSolve: arb: ', arb);
+                var n = arb.getContactPointSet()[0].normal;
+                cc.log('[Block Collision] postSolve: arb normal: ', n);
+                cc.log('[Block Collision] postSolve: space: ', space);
+                // debugger;
+                return true;
+            },
+            function separate(arb, space) {
+                cc.log('[Block Collision] separate(arb, space)');
+                cc.log('[Block Collision] separate: arb: ', arb);
+                // var n = arb.getContactPointSet()[0].normal;
+                // cc.log('[Block Collision] separate: arb normal: ', n);
+                cc.log('[Block Collision] separate: space: ', space);
+                // debugger;
+                return true;
+            }
+        );
     },
     blockLevel: function(resourceJson) {
         var level1 = ccs.load(resourceJson);
@@ -215,7 +196,7 @@ var MyLayer = cc.LayerColor.extend({
             var sprite = new PixelSprite({x: pixels[i].x, y: pixels[i].y}, true);
             // var sprite = new PixelBlock({x: 300, y: 400}, true);
             sprite.color = pixels[i].color;
-            sprite.shape.setCollisionType(3)
+            sprite.shape.setCollisionType(BLOCK_TYPE)
             sprites.push(sprite);
             this.addChild(sprite);
             // break;
@@ -251,7 +232,7 @@ var MyLayer = cc.LayerColor.extend({
         // fuckWithLevel();
     },
     setBoundries: function (space) {
-        var thickness = 20;
+        var thickness = 50;
         //this.setTouchEnabled(true);
         //add floor
         var winWidth = cc.director.getWinSize().width;
@@ -286,9 +267,6 @@ var MyLayer = cc.LayerColor.extend({
                 cp.v(winWidth, winHeight + thickness),
                 thickness
             ));
-        // console.log('this.projectile.sprite.shape: ', this.projectile.sprite.shape);
-        // console.log('ceiling: ', ceiling);
-
 
         floor.setElasticity(1);
         floor.setFriction(1);
@@ -305,24 +283,24 @@ var MyLayer = cc.LayerColor.extend({
         this.ceiling = ceiling;
 
         var rwallBB = this.rwall.getBB();
-        // console.log('rwallBB: ', rwallBB);
+        // cc.log('rwallBB: ', rwallBB);
         var rwallRect = cc.rect(rwallBB.l, rwallBB.b, 10, rwallBB.t);
-        // console.log('rwallRect: ', rwallRect);
+        // cc.log('rwallRect: ', rwallRect);
 
         var lwallBB = this.lwall.getBB();
-        // console.log('lwallBB ' , lwallBB);
+        // cc.log('lwallBB ' , lwallBB);
         var lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
-        // console.log('lwallRect: ', lwallRect);
+        // cc.log('lwallRect: ', lwallRect);
 
         var floorBB = this.floor.getBB();
-        // console.log('floor ' , floor);
+        // cc.log('floor ' , floor);
         var floorRect = cc.rect(floorBB.l, floorBB.b + 40, floorBB.r, 2);
-        // console.log('floorRect: ', floorRect);
+        // cc.log('floorRect: ', floorRect);
 
         var ceilingBB = this.ceiling.getBB();
-        // console.log('ceilingBB ' , ceilingBB);
+        // cc.log('ceilingBB ' , ceilingBB);
         var ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 40, ceilingBB.r, 2);
-        // console.log('ceilingRect: ', ceilingRect);
+        // cc.log('ceilingRect: ', ceilingRect);
         this.setWallCollisions();
     },
     testSprites: function(num) {
@@ -336,7 +314,7 @@ var MyLayer = cc.LayerColor.extend({
             var g = 255 - 2 * count;
             var b = 255 - 3 * count;
             var isStatic;
-            // console.log(r);
+            // cc.log(r);
 
             if (count == 3 ) {
                 var sprite = new PixelSprite({x: 500, y: 500}, false);
@@ -355,7 +333,7 @@ var MyLayer = cc.LayerColor.extend({
                 sprite.color = cc.color(r, g, b);
             }
             // if (isStatic) {
-            //     console.log('isStatic');
+            //     cc.log('isStatic');
 
             //     var sprite = new PixelSprite({x: 200, y: 500}, false);
             //     sprite.color = cc.color(r, g, b);
@@ -366,39 +344,38 @@ var MyLayer = cc.LayerColor.extend({
 
             var rwallBB = this.rwall.getBB();
             var rwallRect = cc.rect(rwallBB.l, rwallBB.b, 10, rwallBB.t);
-            // console.log('rwallRect: ', rwallRect);
+            // cc.log('rwallRect: ', rwallRect);
 
             var lwallBB = this.lwall.getBB();
             var lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
-            // console.log('lwallRect: ', lwallRect);
+            // cc.log('lwallRect: ', lwallRect);
 
             var floor = this.floor.getBB();
             var floorRect = cc.rect(floor.l, floor.b + 40, floor.r, 2);
-            // console.log('floorRect: ', floorRect);
+            // cc.log('floorRect: ', floorRect);
 
             var ceilingBB = this.ceiling.getBB();
             var ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 40, ceilingBB.r, 2);
-            // console.log('ceilingRect: ', ceilingRect);
+            // cc.log('ceilingRect: ', ceilingRect);
 
             this.addChild(sprite);
             count++;
         }.bind(this), 10);
     },
     checkBlockCollisions: function() {
-
     },
     setWallCollisions: function() {
         var rwallBB = this.rwall.getBB();
         this.rwallRect = cc.rect(rwallBB.l, rwallBB.b, 50, rwallBB.t);
-        // console.log('rwallRect: ', rwallRect);
+        // cc.log('rwallRect: ', rwallRect);
 
         var lwallBB = this.lwall.getBB();
         this.lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
-        // console.log('lwallRect: ', lwallRect);
+        // cc.log('lwallRect: ', lwallRect);
 
         var floor = this.floor.getBB();
         this.floorRect = cc.rect(floor.l, floor.b + 30, floor.r, 20);
-        // console.log('floorRect: ', floorRect);
+        // cc.log('floorRect: ', floorRect);
 
         var ceilingBB = this.ceiling.getBB();
         this.ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 50, ceilingBB.r, 20);
@@ -420,9 +397,9 @@ var MyLayer = cc.LayerColor.extend({
             this.projectile.vy *= -1;
         }
     },
-
     update:function(dt){
-        // console.log('this.projvy: ', this.projvy);
+        // cc.log('------------UPDATE------------');
+        // cc.log('this.projvy: ', this.projvy);
         // arb.a.body.setVel(cp.v(vx, vy * -1));
         this.projectile.sprite.body.setVel(cp.v(this.projvx, this.projvy));
         // var curPos = this.projectile.sprite.getPosition();
@@ -435,7 +412,7 @@ var MyLayer = cc.LayerColor.extend({
 
 var HelloWorldScene = cc.Scene.extend({
     init: function() {
-        // console.log('init');
+        // cc.log('init');
     },
     onEnter:function () {
         this._super();

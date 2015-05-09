@@ -1,5 +1,6 @@
-var g_groundHeight = 57;
-var g_runnerStartX = 80;
+var PROJECTILE_TYPE = 1;
+var WALL_TYPE = 2;
+var BLOCK_TYPE = 3;
 
 var Space = new cp.Space();
 Space.iterations = 20;

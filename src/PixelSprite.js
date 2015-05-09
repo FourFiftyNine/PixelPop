@@ -11,14 +11,15 @@ var PixelSprite = cc.PhysicsSprite.extend({
 
         if (isStatic) {
             this.body = new cp.StaticBody();
+            // Circular reference
+            this.body.sprite = this;
             this.body.setPos(cp.v(this.pos.x, this.pos.y));
-            this.shape = Space.addStaticShape(new cp.BoxShape(this.body, this.getContentSize().width, this.getContentSize().height));
+            this.shape = Space.addStaticShape(new cp.BoxShape(this.body, this.getContentSize().width + 2, this.getContentSize().height + 2));
 
         } else {
             this.body = Space.addBody(new cp.Body(this.mass, cp.momentForCircle(this.mass, this.getContentSize().width, this.getContentSize().height, cp.vzero)));
-            this.body.updateVelocity = function() {
-                console.log('hahas');
-            }
+            // Circular reference
+            this.body.sprite = this;
             this.body.setPos(cp.v(this.pos.x, this.pos.y));
             this.shape = Space.addShape(new cp.CircleShape(this.body, this.getContentSize().width / 2, cp.vzero));
             this.shape.setElasticity(elasticity || 0.2);
@@ -41,5 +42,6 @@ var PixelSprite = cc.PhysicsSprite.extend({
         this.body.setPos(cp.v(x, y));
         Space.removeStaticShape(this.shape);
         this.shape = Space.addShape(new cp.CircleShape(this.body, this.getContentSize().width / 2, cp.vzero));
+        this.shape.setSensor(false);
     }
 });

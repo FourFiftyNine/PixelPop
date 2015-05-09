@@ -2,7 +2,7 @@ var Projectile = cc.Node.extend({
     ctor: function(pos) {
         this._super();
 
-        this.pos = pos || {x: 205, y: 500};
+        this.pos = pos || {x: 205, y: 650};
         this.name = 'PixelSprite';
         // this.speed = .5;
         // this.vx = 20;
@@ -27,12 +27,12 @@ var Projectile = cc.Node.extend({
         // sprite.setPosition(this.pos.x, this.pos.y);
 
         sprite.shape = Space
-            .addShape(new cp.CircleShape(sprite.body, sprite.getContentSize().width / 2, cp.vzero));
+            .addShape(new cp.CircleShape(sprite.body, sprite.getContentSize().width / 4, cp.vzero));
         // sprite.shape.setElasticity(0);
         // sprite.shape.setFriction(0.8);
 
         // sprite.color = cc.color(255, 255, 0);
-        // sprite.setScale(.5);
+        sprite.setScale(.5);
 
         this.sprite = sprite;
 

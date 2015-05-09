@@ -5,11 +5,112 @@ var MyLayer = cc.LayerColor.extend({
     circle:null,
     sprite:null,
     init: function() {
+        this.projectile = new Projectile();
         this._super(cc.color(42, 42, 42, 255));
         this.setBoundries(Space);
-        // this.testSprites(220);
+        this.projectile.sprite.shape.setCollisionType(1);
+        this.ceiling.setCollisionType(2);
+        this.floor.setCollisionType(2);
+        this.rwall.setCollisionType(2);
+        this.lwall.setCollisionType(2);
         this.blockLevel(res.Level1_json);
-        this.projectile = new Projectile();
+        this.projvy = 1250;
+        this.projvx = 422;
+        Space.setDefaultCollisionHandler(function(arb) {
+            // debugger;
+            console.log('setDefaultCollisionHandler');
+                // debugger;
+
+        });
+        Space.addCollisionHandler(1, 2,
+            function begin(arb) {
+                console.log('----------WALL--------------');
+                // debugger;
+                var n = arb.getContactPointSet()[0].normal;
+                console.log('n: ', n);
+                if (Math.abs(n.y) > 0.7071) {
+                    if (Math.abs(n.y) >= 0) {
+                        console.log('up');
+                        console.log('this.projvy: ', this.projvy);
+                            this.projvy *= -1;
+                            // debugger;
+                    }
+                    // if (n.y <= 0) {
+                    //     console.log('down');
+                    //         this.projvy *= -1;
+                    // }
+                } else {
+                    if (Math.abs(n.x) >= 0) {
+                        console.log('right');
+                            this.projvx *= -1;
+
+                    }
+                    // if (n.x <= 0) {
+                    //     console.log('left');
+                    //         this.projvx *= -1;
+
+                    // }
+                }
+                return true;
+            }.bind(this),
+            function preSolve() {
+                console.log('preSolve');
+                // debugger;
+                return true;
+            },
+            function postSolve() {
+                console.log('postSolve');
+            },
+            function separate() {
+                console.log('separate');
+            }
+        );
+
+
+        Space.addCollisionHandler(1, 3,
+            function begin(arb) {
+                console.log('----------BLOCK--------------');
+                // debugger;
+                var n = arb.getContactPointSet()[0].normal;
+                console.log('n: ', n);
+                if (Math.abs(n.y) > 0.7071) {
+                    if (Math.abs(n.y) >= 0) {
+                        console.log('up');
+                        console.log('this.projvy: ', this.projvy);
+                            this.projvy *= -1;
+                            // debugger;
+                    }
+                    // if (n.y <= 0) {
+                    //     console.log('down');
+                    //         this.projvy *= -1;
+
+                    // }
+                } else {
+                    if (Math.abs(n.x) >= 0) {
+                        console.log('right');
+                            this.projvx *= -1;
+
+                    }
+                    // if (n.x <= 0) {
+                    //     console.log('left');
+                    //         this.projvx *= -1;
+
+                    // }
+                }
+                return true;
+
+            }.bind(this),
+            function preSolve(a, b) {
+                debugger;
+                console.log('a: ', a);
+                console.log('b: ', b);
+                console.log('preSolve');
+                return;
+            },
+            null, null
+        );
+
+        // this.testSprites(220);
         // console.log('this.projectile.sprite.getBoundingBox(): ', this.projectile.sprite.getBoundingBox());
         this.scheduleUpdate();
 
@@ -19,83 +120,90 @@ var MyLayer = cc.LayerColor.extend({
         this.addChild(debugNode);
         var what = cp.v.lerp(cp.v(100, 100), cp.v(500, 500), 10);
         console.log('what: ', what);
-        this.projvy = 760;
-        this.projxy = 10;
-        this.projectile.sprite.body.applyForce(cp.v(10, 760), cp.vzero);
-        // this.projvy = 520;
-        // this.projvx = 800;
-        Space.setDefaultCollisionHandler(function(arb) {
-            var n = arb.getContactPointSet()[0].normal;
-            console.log('n: ', n);
-            if (Math.abs(n.y) > 0.7071) {
-                if (n.y >= 0) {
-                    console.log('up');
-                        this.projvy *= -1;
+        // this.projvy = 760;
+        // this.projxy = 10;
+        // this.projectile.sprite.body.applyForce(cp.v(10, 760), cp.vzero);
 
-                }
-                if (n.y <= 0) {
-                    console.log('down');
-                        this.projvy *= -1;
 
-                }
-            } else {
-                if (n.x >= 0) {
-                    console.log('right');
-                        this.projvx *= -1;
 
-                }
-                if (n.x <= 0) {
-                    console.log('left');
-                        this.projvx *= -1;
+        // Space.setDefaultCollisionHandler(function(arb) {
+        //     var n = arb.getContactPointSet()[0].normal;
+        //     // console.log('n.mult(1): ', n.mult(1));
+        //     // this.projvy *= -n.y;
+        //     // this.projvx *= -n.x;
+        //     // console.log('n: ', n);
+        //     console.log('n.y: ', n.y);
 
-                }
-            }
-            this.projectile.sprite.body.applyForce(cp.v(10, 760), cp.vzero);
+        //     if (Math.abs(n.y) > 0.7071) {
+        //         if (n.y >= 0) {
+        //             console.log('up');
+        //             console.log('this.projvy: ', this.projvy);
+        //                 this.projvy *= -1;
 
-            // if(n.y > 0.7071){ // ~ cosine of 45 degrees
-            //   if(n.y > 0.0){
-            //     console.log('up');
-            //     this.projvy *= -1;
+        //         }
+        //         if (n.y <= 0) {
+        //             console.log('down');
+        //                 this.projvy *= -1;
 
-            //     // up
-            //   } else {
-            //     console.log('down');
-            //     this.projvy *= -1;
+        //         }
+        //     } else {
+        //         if (n.x >= 0) {
+        //             console.log('right');
+        //                 this.projvx *= -1;
 
-            //     // down
-            //   }
-            // } else {
-            //   if(n.x > 0.0){
-            //     console.log('right');
-            //     this.projvx *= -1;
+        //         }
+        //         if (n.x <= 0) {
+        //             console.log('left');
+        //                 this.projvx *= -1;
 
-            //     // right
-            //   } else {
-            //     console.log('left');
-            //     this.projvx *= -1;
+        //         }
+        //     }
+        //     // this.projectile.sprite.body.applyForce(cp.v(10, 760), cp.vzero);
 
-            //     // left
-            //   }
-            // }
-            // console.log('arb.getContactPointSet(): ', arb.getContactPointSet());;
-            // console.log('cp.Arbiter.getNormal(arb, 0): ', Space.Arbiter.getNormal(arb, 0));
-            // debugger;
-            // console.log('this.projvy: ', this.projvy);
-            // this.projvy *= -1;
-            // console.log('this.projvy: ', this.projvy);
-            // console.log('arb: ', arb);
-            // console.log('projectile: ', projectile);
-            // console.log('arb.a: ', arb.a);
-            // var vx = arb.a.body.vx;
-            // var vy = arb.a.body.vy;
-            // console.log('vx: ', vx);
-            // console.log('a: ', a);
-            // console.log('b: ', b);
-            // console.log('c: ', c);
-            // console.log('ajjajaja');
+        //     // // if(n.y > 0.7071){ // ~ cosine of 45 degrees
+        //     // //   if(n.y > 0.0){
+        //     // //     console.log('up');
+        //     //     this.projvy *= -1;
 
-            return true;
-        }.bind(this));
+        //     //     // up
+        //     //   } else {
+        //     //     console.log('down');
+        //     //     this.projvy *= -1;
+
+        //     //     // down
+        //     //   }
+        //     // } else {
+        //     //   if(n.x > 0.0){
+        //     //     console.log('right');
+        //     //     this.projvx *= -1;
+
+        //     //     // right
+        //     //   } else {
+        //     //     console.log('left');
+        //     //     this.projvx *= -1;
+
+        //     //     // left
+        //     //   }
+        //     // }
+        //     // console.log('arb.getContactPointSet(): ', arb.getContactPointSet());;
+        //     // console.log('cp.Arbiter.getNormal(arb, 0): ', Space.Arbiter.getNormal(arb, 0));
+        //     // debugger;
+        //     // console.log('this.projvy: ', this.projvy);
+        //     // this.projvy *= -1;
+        //     // console.log('this.projvy: ', this.projvy);
+        //     // console.log('arb: ', arb);
+        //     // console.log('projectile: ', projectile);
+        //     // console.log('arb.a: ', arb.a);
+        //     // var vx = arb.a.body.vx;
+        //     // var vy = arb.a.body.vy;
+        //     // console.log('vx: ', vx);
+        //     // console.log('a: ', a);
+        //     // console.log('b: ', b);
+        //     // console.log('c: ', c);
+        //     // console.log('ajjajaja');
+
+        //     return true;
+        // }.bind(this));
 
 
     },
@@ -107,6 +215,7 @@ var MyLayer = cc.LayerColor.extend({
             var sprite = new PixelSprite({x: pixels[i].x, y: pixels[i].y}, true);
             // var sprite = new PixelBlock({x: 300, y: 400}, true);
             sprite.color = pixels[i].color;
+            sprite.shape.setCollisionType(3)
             sprites.push(sprite);
             this.addChild(sprite);
             // break;
@@ -177,6 +286,9 @@ var MyLayer = cc.LayerColor.extend({
                 cp.v(winWidth, winHeight + thickness),
                 thickness
             ));
+        // console.log('this.projectile.sprite.shape: ', this.projectile.sprite.shape);
+        // console.log('ceiling: ', ceiling);
+
 
         floor.setElasticity(1);
         floor.setFriction(1);
@@ -312,7 +424,7 @@ var MyLayer = cc.LayerColor.extend({
     update:function(dt){
         // console.log('this.projvy: ', this.projvy);
         // arb.a.body.setVel(cp.v(vx, vy * -1));
-        // this.projectile.sprite.body.setVel(cp.v(this.projvx, this.projvy));
+        this.projectile.sprite.body.setVel(cp.v(this.projvx, this.projvy));
         // var curPos = this.projectile.sprite.getPosition();
         // this.checkBlockCollisions();
         // this.projectile.sprite.setPosition(curPos.x + this.projectile.vx, curPos.y + this.projectile.vy);
@@ -326,13 +438,9 @@ var HelloWorldScene = cc.Scene.extend({
         // console.log('init');
     },
     onEnter:function () {
-        console.log('onEnter123')
         this._super();
-        console.log('onEnter22')
         var layer = new MyLayer();
-        console.log('onEnter333')
         this.addChild(layer);
-        console.log('onEnter443')
         layer.init();
     }
 });

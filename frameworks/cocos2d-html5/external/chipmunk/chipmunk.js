@@ -1928,6 +1928,7 @@ Body.prototype.kineticEnergy = function()
 
 var SpatialIndex = cp.SpatialIndex = function(staticIndex)
 {
+	console.log(staticIndex);
 	this.staticIndex = staticIndex;
 
 
@@ -1942,6 +1943,8 @@ var SpatialIndex = cp.SpatialIndex = function(staticIndex)
 // Collide the objects in an index against the objects in a staticIndex using the query callback function.
 SpatialIndex.prototype.collideStatic = function(staticIndex, func)
 {
+	console.log('collideStatic');
+	debugger;
 	if(staticIndex.count > 0){
 		var query = staticIndex.query;
 

@@ -1,78 +1,31 @@
 var Projectile = cc.Node.extend({
+    vx: 1200,
+    vy: 1350,
     ctor: function(pos) {
         this._super();
 
-        this.pos = pos || {x: 205, y: 650};
-        this.name = 'PixelSprite';
-        // this.speed = .5;
-        // this.vx = 20;
-        // this.vy = -30;
-
+        this.pos = pos || {x: 305, y: 650};
+        this.name = 'Projectile';
         this.scheduleUpdate();
-        console.log('after3');
-
-        // ngs = no gravity space
-        // Space = new cp.Space();
-        // Space.iterations = 5;
-        // Space.gravity = cp.v(0, 0);
 
         var sprite = new cc.PhysicsSprite();
         // var sprite = new cc.Sprite();
         sprite.initWithFile(res.projectile);
         // sprite.body = Space.addBody(new cp.Body(100, Infinity));
-            sprite.body = Space.addBody(new cp.Body(1, cp.momentForCircle(1, sprite.getContentSize().width, sprite.getContentSize().height, cp.vzero)));
+        sprite.body = Space.addBody(new cp.Body(1, cp.momentForCircle(1, sprite.getContentSize().width, sprite.getContentSize().height, cp.vzero)));
         // // sprite.body = cp.StaticBody();
         sprite.body.setPos(cp.v(this.pos.x, this.pos.y));
-        // sprite.setPosition(this.pos.x, this.pos.y);
-        // sprite.setPosition(this.pos.x, this.pos.y);
+
+        // Circular dependency
+        sprite.body.sprite = sprite;
 
         sprite.shape = Space
             .addShape(new cp.CircleShape(sprite.body, sprite.getContentSize().width / 4, cp.vzero));
-        // sprite.shape.setElasticity(0);
-        // sprite.shape.setFriction(0.8);
 
-        // sprite.color = cc.color(255, 255, 0);
         sprite.setScale(.5);
 
         this.sprite = sprite;
-
-        // console.log('this.sprite.body: ', this.sprite.body);
-        // this.sprite.body.velocity_func = this.updateProjectileVel;
-        // console.log('this.sprite.body.eachShape(): ', this.sprite.body.eachShape());
-        // this.sprite.body.eachShape(function() {
-        //     console.log('hassssss');
-        // })
-        // this.sprite.body.updateVelocity = function() {
-        //     console.log('updating');
-        // }
-        // this.sprite.body.velocity_func = function (gravity, damping, dt) {
-        //     gravity = cp.v(0, 0);
-        //     damping = 1;
-        //     // console.log('test');
-        //     var clamp = function(f, minv, maxv) {
-        //         return Math.min(Math.max(f, minv), maxv);
-        //     };
-        //     //this.v = vclamp(vadd(vmult(this.v, damping), vmult(vadd(gravity, vmult(this.f, this.m_inv)), dt)), this.v_limit);
-        //     var vx = this.vx * damping + (this.f.x * this.m_inv) * dt;
-        //     var vy = this.vy * damping + (this.f.y * this.m_inv) * dt;
-
-        //     //var v = vclamp(new Vect(vx, vy), this.v_limit);
-        //     //this.vx = v.x; this.vy = v.y;
-        //     var v_limit = this.v_limit;
-        //     var lensq = vx * vx + vy * vy;
-        //     var scale = (lensq > v_limit*v_limit) ? v_limit / Math.sqrt(lensq) : 1;
-        //     this.vx = vx * scale;
-        //     this.vy = vy * scale;
-
-        //     var w_limit = this.w_limit;
-        //     this.w = clamp(this.w*damping + this.t*this.i_inv*dt, -w_limit, w_limit);
-
-        //     this.sanityCheck();
-        // };
-
         this.addChild(sprite);
-
-
         this.sprite = sprite;
 
     },
@@ -105,6 +58,12 @@ var Projectile = cc.Node.extend({
         body.w = clamp(body.w*damping + body.t*body.i_inv*dt, -w_limit, w_limit);
 
         // body.sanityCheck();
+    },
+    setAfterWallCollision: function(px, py, vx, vy) {
+        this.sprite.setPosition(px, py);
+        this.sprite.body.setPos(cp.v(px, py));
+        this.vy = vy;
+        this.vx = vx;
     },
     update: function(dt) {
         // this.sprite.body.setAngVel(1000000);

@@ -9,8 +9,10 @@ var PixelBlock = cc.PhysicsSprite.extend({
 
         if (isStatic) {
             this.body = new cp.StaticBody();
+            // Circular reference
+            this.body.sprite = this;
             this.body.setPos(cp.v(this.pos.x, this.pos.y));
-            this.shape = Space.addStaticShape(new cp.CircleShape(this.body, this.getContentSize().width / 2, cp.vzero));
+            this.shape = Space.addStaticShape(new cp.BoxShape(this.body, this.getContentSize().width + 2, this.getContentSize().height + 2));
 
         } else {
             this.body = Space.addBody(new cp.Body(this.mass, cp.momentForCircle(this.mass, this.getContentSize().width, this.getContentSize().height, cp.vzero)));
@@ -40,9 +42,9 @@ var PixelBlock = cc.PhysicsSprite.extend({
     removeStatic: function() {
         var x = this.body.getPos().x;
         var y = this.body.getPos().y;
-        this.body = Space.addBody(new cp.Body(this.mass, cp.momentForCircle(this.mass, this.getContentSize().width, this.getContentSize().height, cp.vzero)));
+        this.body = Space.addBody(new cp.Body(this.mass, cp.momentForBox(this.mass, this.getContentSize().width, this.getContentSize().height)));
         this.body.setPos(cp.v(x, y));
         Space.removeStaticShape(this.shape);
-        this.shape = Space.addShape(new cp.CircleShape(this.body, this.getContentSize().width / 2, cp.vzero));
+        this.shape = Space.addShape(new cp.BoxShape(this.body, this.getContentSize().width + 2, this.getContentSize().height + 2));
     }
 });

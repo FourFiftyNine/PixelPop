@@ -1,68 +1,68 @@
 var MyLayer = cc.LayerColor.extend({
-    isMouseDown:false,
-    helloImg:null,
-    helloLabel:null,
-    circle:null,
-    sprite:null,
+    lastWallCollision: null,
     init: function() {
         this.projectile = new Projectile();
+        this.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
+        this.activeProjectiles = [];
+        this.activeProjectiles.push(this.projectile);
+
+        this.addChild(this.projectile);
+
         this._super(cc.color(42, 42, 42, 255));
         this.setBoundries(Space);
-        this.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
         this.ceiling.setCollisionType(WALL_TYPE);
         this.floor.setCollisionType(WALL_TYPE);
         this.rwall.setCollisionType(WALL_TYPE);
         this.lwall.setCollisionType(WALL_TYPE);
+
         this.blockLevel(res.Level1_json);
-        this.projvy = 950;
-        this.projvx = 320;
+
         this.removeEntitites = [];
         this.blockRemovalQueued = false;
-        this.scheduleUpdate();
 
+        this.initMouse();
+        // Spatial whatever
+        cc.log('Space.staticShapes: ', Space.staticShapes);
 
         // Space.setDefaultCollisionHandler(function(arb) {
         //     // cc.log('Space.setDefaultCollisionHandler: ', setDefaultCollisionHandler);
         // });
 
         this.blockCollisionHandler();
+
         // Wall Collision
-        Space.addCollisionHandler(PROJECTILE_TYPE, WALL_TYPE, this.wallCollisionBegin.bind(this), null, null, null);
+        Space.addCollisionHandler(
+            PROJECTILE_TYPE,
+            WALL_TYPE,
+            this.wallCollisionBegin.bind(this),
+            null,
+            null,
+            null
+        );
 
-        // this.testSprites(220);
-        // cc.log('this.projectile.sprite.getBoundingBox(): ', this.projectile.sprite.getBoundingBox());
+        // var debugNode = new cc.PhysicsDebugNode(Space);
+        // debugNode.visible = true;
+        // this.addChild(debugNode);
 
-        this.addChild(this.projectile);
-        var debugNode = new cc.PhysicsDebugNode(Space);
-        debugNode.visible = true;
-        this.addChild(debugNode);
+        this.scheduleUpdate();
     },
-    wallCollisionBegin: function(arb) {
-        var n = arb.getNormal(0);
-        if (Math.abs(n.y) > 0.7071) {
-            if (Math.abs(n.y) >= 0) {
-                // cc.log('up');
-                // cc.log('this.projvy: ', this.projvy);
-                    this.projvy *= -1;
+    initMouse: function() {
+        var that = this;
+        if ('mouse' in cc.sys.capabilities)
+            cc.eventManager.addListener({
+                event: cc.EventListener.MOUSE,
+                onMouseDown: function(event) {
+                    cc.log('click');
+                    that.projectile = new Projectile();
+                    that.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
+                    that.addChild(that.projectile);
+                    that.activeProjectiles.push(that.projectile);
+                    // cc.log('that.getChildrenByName("Projectile"): ', that.getChildrenByName("Projectile"));
                     // debugger;
-            }
-            // if (n.y <= 0) {
-            //     cc.log('down');
-            //         this.projvy *= -1;
-            // }
-        } else {
-            if (Math.abs(n.x) >= 0) {
-                // cc.log('right');
-                    this.projvx *= -1;
-
-            }
-            // if (n.x <= 0) {
-            //     cc.log('left');
-            //         this.projvx *= -1;
-
-            // }
-        }
-        return true;
+                },
+                onMouseMove: function(event){
+                }
+            }, this);
     },
     postStepRemoveBlock: function(shapeToRemove) {
         cc.log('arguments: ', arguments);
@@ -96,27 +96,32 @@ var MyLayer = cc.LayerColor.extend({
                 cc.log('arbiter.getShapes(): ', arbiter.getShapes());
                 cc.log('[Block Collision] begin()---------------------');
                 cc.log('[Block Collision] begin: arbiter: ', arbiter);
+                cc.log('[Block Collision] begin: arbiter.getNormal(0): ', arbiter.getNormal(0));
+                cc.log('[Block Collision] begin: arbiter.getDepth(0): ', arbiter.getDepth(0));
+                cc.log('[Block Collision] begin: arbiter.stamp: ', arbiter.stamp);
                 cc.log('[Block Collision] begin: space: ', space);
                 cc.log('[Block Collision] begin: normal: ', normal);
                 cc.log('[Block Collision] this.blockRemovalQueued: ', this.blockRemovalQueued);
+                // debugger;
                 // this.removeEntitites.push({
                 //     shape: arbiter.b,
                 //     body: arbiter.body_b
                 // });
                 //
+                // debugger;
                 if (this.blockRemovalQueued === true) {
                     return false;
                 }
 
                 if (Math.abs(normal.y) === 1) {
-                    this.projvy *= -1;
+                    this.projectile.vy *= -1;
                     cc.log('[Block Collision] begin: normal.y is 1: ', normal.y);
                     Space.addPostStepCallback(this.postStepRemoveBlock.bind(this, arbiter.b));
                     this.blockRemovalQueued = true;
                     // debugger;
                     return false;
                 } else if (Math.abs(normal.x) === 1) {
-                    this.projvx *= -1;
+                    this.projectile.vx *= -1;
                     cc.log('[Block Collision] begin: normal.x is 1: ', normal.x);
                     Space.addPostStepCallback(this.postStepRemoveBlock.bind(this, arbiter.b));
                     this.blockRemovalQueued = true;
@@ -125,7 +130,7 @@ var MyLayer = cc.LayerColor.extend({
                     return false;
                 }
                 return true;
-                debugger;
+                // debugger;
 
                 // debugger;
                 // artbi
@@ -135,24 +140,24 @@ var MyLayer = cc.LayerColor.extend({
                 }
                 // if (Math.abs(n.y) > 0.7071) {
                 if (Math.abs(normal.y) >= 0) {
-                    this.projvy *= -1;
-                    cc.log('[Block Collision: change y velocity]: ', this.projvy);
+                    this.projectile.vy *= -1;
+                    cc.log('[Block Collision: change y velocity]: ', this.projectile.vy);
                     // return false;
 
                     // if (normal.y <= 0) {
                     //     cc.log('down');
-                    //         this.projvy *= -1;
+                    //         this.projectile.vy *= -1;
 
                     // }
                 } else {
                     if (Math.abs(normal.x) >= 0) {
                         // cc.log('right');
-                            this.projvx *= -1;
+                            this.projectile.vx *= -1;
 
                     }
                     // if (normal.x <= 0) {
                     //     cc.log('left');
-                    //         this.projvx *= -1;
+                    //         this.projectile.vx *= -1;
 
                     // }
                 }
@@ -193,7 +198,7 @@ var MyLayer = cc.LayerColor.extend({
         var pixels = level1.node.getChildren();
         var sprites = [];
         for (var i = 0; i < pixels.length; i++) {
-            var sprite = new PixelSprite({x: pixels[i].x, y: pixels[i].y}, true);
+            var sprite = new PixelBlock({x: pixels[i].x, y: pixels[i].y}, true);
             // var sprite = new PixelBlock({x: 300, y: 400}, true);
             sprite.color = pixels[i].color;
             sprite.shape.setCollisionType(BLOCK_TYPE)
@@ -232,19 +237,28 @@ var MyLayer = cc.LayerColor.extend({
         // fuckWithLevel();
     },
     setBoundries: function (space) {
-        var thickness = 50;
+        var thickness = 120;
         //this.setTouchEnabled(true);
         //add floor
         var winWidth = cc.director.getWinSize().width;
         var winHeight = cc.director.getWinSize().height;
 
+        // Raised floor for debugging
         var floor = Space.addShape(
             new cp.SegmentShape(
                 Space.staticBody,
-                cp.v(0, 0 - thickness),
-                cp.v(winWidth, 0 - thickness),
-                thickness
+                cp.v(0, 0, 500 + thickness),
+                cp.v(winWidth, 0, 500 + thickness),
+                500 + thickness
             ));
+
+        // var floor = Space.addShape(
+        //     new cp.SegmentShape(
+        //         Space.staticBody,
+        //         cp.v(0, 0 - thickness),
+        //         cp.v(winWidth, 0 - thickness),
+        //         thickness
+        //     ));
 
         var lwall = Space.addShape(
             new cp.SegmentShape(
@@ -282,26 +296,27 @@ var MyLayer = cc.LayerColor.extend({
         this.floor = floor;
         this.ceiling = ceiling;
 
-        var rwallBB = this.rwall.getBB();
+        // var rwallBB = this.rwall.getBB();
         // cc.log('rwallBB: ', rwallBB);
-        var rwallRect = cc.rect(rwallBB.l, rwallBB.b, 10, rwallBB.t);
+        // var rwallRect = cc.rect(rwallBB.l, rwallBB.b, 10, rwallBB.t);
         // cc.log('rwallRect: ', rwallRect);
 
-        var lwallBB = this.lwall.getBB();
+        // var lwallBB = this.lwall.getBB();
         // cc.log('lwallBB ' , lwallBB);
-        var lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
+        // var lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
         // cc.log('lwallRect: ', lwallRect);
 
-        var floorBB = this.floor.getBB();
+        // var floorBB = this.floor.getBB();
         // cc.log('floor ' , floor);
-        var floorRect = cc.rect(floorBB.l, floorBB.b + 40, floorBB.r, 2);
+        // var floorRect = cc.rect(floorBB.l, floorBB.b + 40, floorBB.r, 2);
         // cc.log('floorRect: ', floorRect);
 
-        var ceilingBB = this.ceiling.getBB();
+        // var ceilingBB = this.ceiling.getBB();
         // cc.log('ceilingBB ' , ceilingBB);
-        var ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 40, ceilingBB.r, 2);
+        // var ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 40, ceilingBB.r, 2);
         // cc.log('ceilingRect: ', ceilingRect);
-        this.setWallCollisions();
+
+        // this.createWallRects();
     },
     testSprites: function(num) {
         var count = 1;
@@ -362,11 +377,10 @@ var MyLayer = cc.LayerColor.extend({
             count++;
         }.bind(this), 10);
     },
-    checkBlockCollisions: function() {
-    },
-    setWallCollisions: function() {
+    createWallRects: function() {
         var rwallBB = this.rwall.getBB();
         this.rwallRect = cc.rect(rwallBB.l, rwallBB.b, 50, rwallBB.t);
+        this.rwallRect.color = cc.color(255, 255, 0);
         // cc.log('rwallRect: ', rwallRect);
 
         var lwallBB = this.lwall.getBB();
@@ -380,32 +394,130 @@ var MyLayer = cc.LayerColor.extend({
         var ceilingBB = this.ceiling.getBB();
         this.ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 50, ceilingBB.r, 20);
     },
+    wallCollisionBegin: function(arb) {
+        var n = arb.getNormal(0);
+        // debugger;
+        var absDepth = Math.abs(arb.getDepth(0));
+        cc.log('[Wall Collision] postSolve(): arb.getPoint(0): ', arb.getPoint(0));
+        cc.log('[Wall Collision] postSolve(): arb.getDepth(0): ', arb.getDepth(0));
+        cc.log('[Wall Collision] postSolve(): arb.getNormal(0): ', arb.getNormal(0));
+        var curPos = this.projectile.sprite.getPosition();
+        var sprite = this.projectile.sprite;
+
+        // debugger;
+        if (Math.abs(n.y) > 0.7071) {
+            if (n.y >= 0) {
+                cc.log('top');
+                var wallPos = 'top';
+                // if (wallPos === this.lastWallCollision) {
+                    // return true;
+                // }
+
+                this.lastWallCollision = wallPos;
+                this.projectile.setAfterWallCollision(
+                    curPos.x,
+                    curPos.y - absDepth,
+                    this.projectile.vx,
+                    -(Math.abs(this.projectile.vy))
+                );
+
+            }
+            if (n.y < 0) {
+                cc.log('bottom')
+                var wallPos = 'bottom';
+                // if (wallPos === this.lastWallCollision) {
+                    // return true;
+                // }
+                this.lastWallCollision = wallPos;
+
+                this.projectile.setAfterWallCollision(
+                    curPos.x,
+                    curPos.y + absDepth,
+                    this.projectile.vx,
+                    (Math.abs(this.projectile.vy))
+                );
+            }
+
+        } else {
+            if (n.x >= 0) {
+                cc.log('right')
+                var wallPos = 'right';
+                // if (wallPos === this.lastWallCollision) {
+                    // return true;
+                // }
+                this.lastWallCollision = wallPos;
+
+                this.projectile.setAfterWallCollision(
+                    curPos.x - absDepth,
+                    curPos.y,
+                    -(Math.abs(this.projectile.vx)),
+                    this.projectile.vy
+                );
+            }
+            if (n.x < 0) {
+                cc.log('left')
+                var wallPos = 'left';
+                // if (wallPos === this.lastWallCollision) {
+                    // return true;
+                // }
+                this.lastWallCollision = wallPos;
+
+                this.projectile.setAfterWallCollision(
+                    curPos.x + absDepth,
+                    curPos.y,
+                    (Math.abs(this.projectile.vx)),
+                    this.projectile.vy
+                );
+            }
+        }
+        return true;
+    },
     checkWallCollisions: function() {
-        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.rwallRect)) {
-            this.projectile.vx *= -1;
-        }
+        // if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.rwallRect)) {
+        //     this.projectile.vx *= -1;
+        // }
 
-        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.lwallRect)) {
-            this.projectile.vx *= -1;
-        }
+        // if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.lwallRect)) {
+        //     this.projectile.vx *= -1;
+        // }
 
-        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.floorRect)) {
-            this.projectile.vy *= -1;
-        }
+        // if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.floorRect)) {
+        //     this.projectile.vy *= -1;
+        // }
 
-        if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.ceilingRect)) {
-            this.projectile.vy *= -1;
-        }
+        // if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.ceilingRect)) {
+        //     this.projectile.vy *= -1;
+        // }
+
+        var projBB = this.projectile.sprite.getBoundingBox();
+
+         if (
+             cc.rectIntersectsRect(projBB, this.rwallRect) ||
+             cc.rectIntersectsRect(projBB, this.lwallRect)) {
+             this.projectile.vx *= -1;
+         }
+
+         if (
+             cc.rectIntersectsRect(projBB, this.floorRect) ||
+             cc.rectIntersectsRect(projBB, this.ceilingRect)) {
+             this.projectile.vy *= -1;
+         }
     },
     update:function(dt){
         // cc.log('------------UPDATE------------');
-        // cc.log('this.projvy: ', this.projvy);
+        // cc.log('this.projectile.vy: ', this.projectile.vy);
         // arb.a.body.setVel(cp.v(vx, vy * -1));
-        this.projectile.sprite.body.setVel(cp.v(this.projvx, this.projvy));
+        for (var i = 0; i < this.activeProjectiles.length; i++) {
+            this.activeProjectiles[i]
+                .sprite
+                .body
+                .setVel(cp.v(this.activeProjectiles[i].vx, this.activeProjectiles[i].vy));
+        };
+        // this.projectile.
         // var curPos = this.projectile.sprite.getPosition();
         // this.checkBlockCollisions();
         // this.projectile.sprite.setPosition(curPos.x + this.projectile.vx, curPos.y + this.projectile.vy);
-        this.checkWallCollisions();
+        // this.checkWallCollisions();
         Space.step(dt);
     }
 });

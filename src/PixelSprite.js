@@ -14,7 +14,7 @@ var PixelSprite = cc.PhysicsSprite.extend({
             // Circular reference
             this.body.sprite = this;
             this.body.setPos(cp.v(this.pos.x, this.pos.y));
-            this.shape = Space.addStaticShape(new cp.BoxShape(this.body, this.getContentSize().width + 2, this.getContentSize().height + 2));
+            this.shape = Space.addStaticShape(new cp.CircleShape(this.body, this.getContentSize().width / 2, cp.vzero));
 
         } else {
             this.body = Space.addBody(new cp.Body(this.mass, cp.momentForCircle(this.mass, this.getContentSize().width, this.getContentSize().height, cp.vzero)));

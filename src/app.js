@@ -1,5 +1,6 @@
 var MyLayer = cc.LayerColor.extend({
     lastWallCollision: null,
+    lastProjectilePos: null,
     init: function() {
         this.projectile = new Projectile();
         this.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
@@ -22,8 +23,6 @@ var MyLayer = cc.LayerColor.extend({
 
         this.initMouse();
         // Spatial whatever
-        cc.log('Space.staticShapes: ', Space.staticShapes);
-
         // Space.setDefaultCollisionHandler(function(arb) {
         //     // cc.log('Space.setDefaultCollisionHandler: ', setDefaultCollisionHandler);
         // });
@@ -46,6 +45,7 @@ var MyLayer = cc.LayerColor.extend({
 
         this.scheduleUpdate();
     },
+    // BROKE
     initMouse: function() {
         var that = this;
         if ('mouse' in cc.sys.capabilities)
@@ -57,8 +57,6 @@ var MyLayer = cc.LayerColor.extend({
                     that.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
                     that.addChild(that.projectile);
                     that.activeProjectiles.push(that.projectile);
-                    // cc.log('that.getChildrenByName("Projectile"): ', that.getChildrenByName("Projectile"));
-                    // debugger;
                 },
                 onMouseMove: function(event){
                 }
@@ -92,26 +90,172 @@ var MyLayer = cc.LayerColor.extend({
     blockCollisionHandler: function() {
         Space.addCollisionHandler(PROJECTILE_TYPE, BLOCK_TYPE,
             function begin(arbiter, space) {
+
+                if (this.blockRemovalQueued === true) {
+                    console.log('return false');
+                    return false;
+                }
+                console.log('this.lastProjectilePos: ', this.lastProjectilePos);
+                cc.log('this.projectile.vx: ', this.projectile.vx);
+                cc.log('this.projectile.vy: ', this.projectile.vy);
+                console.log('arbiter.getShapes()[0].body.getPos(): ', arbiter.getShapes()[0].body.getPos());
                 var normal = arbiter.getNormal(0);
+                var drawNode = new cc.DrawNode();
+                console.log('normal: ', normal);
+                cc.log('arbiter.getShapes()[0]: ', arbiter.getShapes()[0]);
+                var center = this.lastProjectilePos;
+                var start = cp.v(center.x, center.y)
+                var segmentEndX = start.x + this.projectile.vx;
+                var segmentEndY = start.y + this.projectile.vy;
+                // drawNode.drawSegment(start, cp.v(segmentEndX, segmentEndY), 2, cc.color(255, 0, 255));
+                // drawNode.drawDot(start, 2, cc.color(255, 255, 0));
+                // console.log('drawNode: ', drawNode);
+                // this.addChild(drawNode);
+                var firstHitResult = false;
+                var collisionNormal;
+                space.segmentQuery(start, cp.v(segmentEndX, segmentEndY), -1, 0, function(queryResult, t, n) {
+                    if (firstHitResult === false &&
+                        queryResult.body.sprite &&
+                        queryResult.body.sprite.name === 'PixelBlock') {
+                        firstHitResult = queryResult;
+                        collisionNormal = n;
+                        console.log('firstHitResult: ', firstHitResult);
+                        console.log('collisionNormal: ', collisionNormal);
+                    }
+                });
+                if (firstHitResult === false) {
+                    return false;
+                }
+                cc.log('firstHitResult: ', firstHitResult);
+                if (firstHitResult.body.sprite) {
+                    Space.addPostStepCallback(this.postStepRemoveBlock.bind(this, firstHitResult));
+                    this.blockRemovalQueued = true;
+                }
+                if (collisionNormal.y === -1) {
+                    cc.log('bottom of block');
+                    this.projectile.vy = -Math.abs(this.projectile.vy);
+
+                }
+                if (collisionNormal.y === 1) {
+                    cc.log('bottom of top');
+                    this.projectile.vy = Math.abs(this.projectile.vy);
+
+                }
+                if (collisionNormal.x === 1) {
+                    cc.log('right of block');
+                    this.projectile.vx = Math.abs(this.projectile.vx);
+
+                }
+                if (collisionNormal.x === -1) {
+                    cc.log('left of block');
+                    this.projectile.vx = -Math.abs(this.projectile.vx);
+
+                }
+                // Set point of contact -- not last position
+                this.projectile.sprite.setPosition(this.lastProjectilePos);
+                this.projectile.sprite.body.setPos(cp.v(this.lastProjectilePos.x, this.lastProjectilePos.y));
+                // debugger;
+                return false;
+
+
+                // firstHit.shape.body.sprite.color = cc.color(0, 255, 0);
+                // space.segmentQuery(center, cp.v(segmentEndX, segmentEndY), -1, 0, function(a, b) {
+                //     if (a.body.sprite) {
+                //         a.body.sprite.color = cc.color(0, 255, 0);
+                //         console.log('GOT a Sprite');
+                //     }
+                //     cc.log('param-a: ', a);
+                //     cc.log('param-b: ', b);
+                // });
+                // debugger;
+                // return;
+                // space.pointQuery(cp.v(70, 990), -1, 0, function(a, b) {
+                //     if (a.body.sprite) {
+                //         a.body.sprite.color = cc.color(0, 255, 0);
+                //         console.log('GOT a Sprite');
+                //     }
+                //     cc.log('param-a: ', a);
+                //     cc.log('param-b: ', b);
+                // });
+                // cc.log('space.pointQuery(cp.v(100, 100)): ', space.pointQuery(cp.v(30, 30)));
                 cc.log('arbiter.getShapes(): ', arbiter.getShapes());
-                cc.log('[Block Collision] begin()---------------------');
+                cc.log('[Block Collision] begin()-------------------------------------');
                 cc.log('[Block Collision] begin: arbiter: ', arbiter);
                 cc.log('[Block Collision] begin: arbiter.getNormal(0): ', arbiter.getNormal(0));
                 cc.log('[Block Collision] begin: arbiter.getDepth(0): ', arbiter.getDepth(0));
                 cc.log('[Block Collision] begin: arbiter.stamp: ', arbiter.stamp);
                 cc.log('[Block Collision] begin: space: ', space);
                 cc.log('[Block Collision] begin: normal: ', normal);
-                cc.log('[Block Collision] this.blockRemovalQueued: ', this.blockRemovalQueued);
-                // debugger;
+                cc.log('[Block Collision] this.blockRemovalQueued: ', this.
+                    blockRemovalQueued);
+
+
+                if (normal.y === 1) {
+                    cc.log('bottom of block');
+                    if (this.projectile.vy > 0) {
+                        this.projectile.vy = -Math.abs(this.projectile.vy);
+                        this.projectile.vx = this.projectile.vx;
+                    }
+                    if (this.projectile.vx > 0) {
+                        cc.log('here');
+                        this.projectile.vy = -Math.abs(this.projectile.vy);
+                        this.projectile.vx = this.projectile.vx;
+                    }
+
+                }
+
+                if (normal.x === 1) {
+                    cc.log('right of block');
+                    if (this.projectile.vx > 0) {
+                        this.projectile.vy = -Math.abs(this.projectile.vy);
+                        this.projectile.vx = this.projectile.vx;
+                    }
+                    if (this.projectile.vx < 0) {
+                        this.projectile.vy = -Math.abs(this.projectile.vy);
+                        this.projectile.vx = this.projectile.vx;
+                    }
+
+                }
+                debugger;
+                return true;
+                // if (normal.x === -1) {
+                //     cc.log('left of block');
+                //     if (this.projectile.vx < 0) {
+                //         this.projectile.vy = Math.abs(this.projectile.vy);
+                //         this.projectile.vx = this.projectile.vx;
+                //     }
+                //     if (this.projectile.vx < 0) {
+                //         this.projectile.vy = -Math.abs(this.projectile.vy);
+                //         this.projectile.vx = this.projectile.vx;
+                //     }
+
+                // }
+                if (normal.y === -1) {
+                    cc.log('top');
+
+                }
+                if (normal.x === 1) {
+                    cc.log('left')
+                    if (this.projectile.vx < 0) {
+                        this.projectile.vy = -Math.abs(this.projectile.vy);
+                    }
+                }
+                if (normal.x === -1) {
+                    cc.log('right')
+
+                }
+                debugger;
                 // this.removeEntitites.push({
                 //     shape: arbiter.b,
                 //     body: arbiter.body_b
                 // });
                 //
                 // debugger;
-                if (this.blockRemovalQueued === true) {
-                    return false;
-                }
+                // if (this.blockRemovalQueued === true) {
+                //     return false;
+                // }
+
+
 
                 if (Math.abs(normal.y) === 1) {
                     this.projectile.vy *= -1;
@@ -472,39 +616,9 @@ var MyLayer = cc.LayerColor.extend({
         }
         return true;
     },
-    checkWallCollisions: function() {
-        // if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.rwallRect)) {
-        //     this.projectile.vx *= -1;
-        // }
-
-        // if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.lwallRect)) {
-        //     this.projectile.vx *= -1;
-        // }
-
-        // if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.floorRect)) {
-        //     this.projectile.vy *= -1;
-        // }
-
-        // if (cc.rectIntersectsRect(this.projectile.sprite.getBoundingBox(), this.ceilingRect)) {
-        //     this.projectile.vy *= -1;
-        // }
-
-        var projBB = this.projectile.sprite.getBoundingBox();
-
-         if (
-             cc.rectIntersectsRect(projBB, this.rwallRect) ||
-             cc.rectIntersectsRect(projBB, this.lwallRect)) {
-             this.projectile.vx *= -1;
-         }
-
-         if (
-             cc.rectIntersectsRect(projBB, this.floorRect) ||
-             cc.rectIntersectsRect(projBB, this.ceilingRect)) {
-             this.projectile.vy *= -1;
-         }
-    },
     update:function(dt){
-        // cc.log('------------UPDATE------------');
+        cc.log('------------UPDATE------------');
+        // debugger;
         // cc.log('this.projectile.vy: ', this.projectile.vy);
         // arb.a.body.setVel(cp.v(vx, vy * -1));
         for (var i = 0; i < this.activeProjectiles.length; i++) {
@@ -514,10 +628,9 @@ var MyLayer = cc.LayerColor.extend({
                 .setVel(cp.v(this.activeProjectiles[i].vx, this.activeProjectiles[i].vy));
         };
         // this.projectile.
-        // var curPos = this.projectile.sprite.getPosition();
+        this.lastProjectilePos = this.projectile.sprite.getPosition();
         // this.checkBlockCollisions();
         // this.projectile.sprite.setPosition(curPos.x + this.projectile.vx, curPos.y + this.projectile.vy);
-        // this.checkWallCollisions();
         Space.step(dt);
     }
 });

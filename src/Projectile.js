@@ -1,6 +1,6 @@
 var Projectile = cc.Node.extend({
-    vx: 1200,
-    vy: 1350,
+    vx: -600,
+    vy: 1200,
     ctor: function(pos) {
         this._super();
 
@@ -21,7 +21,6 @@ var Projectile = cc.Node.extend({
 
         sprite.shape = Space
             .addShape(new cp.CircleShape(sprite.body, sprite.getContentSize().width / 4, cp.vzero));
-
         sprite.setScale(.5);
 
         this.sprite = sprite;

@@ -13,6 +13,8 @@ var PixelBlock = cc.PhysicsSprite.extend({
             this.body.sprite = this;
             this.body.setPos(cp.v(this.pos.x, this.pos.y));
             this.shape = Space.addStaticShape(new cp.BoxShape(this.body, this.getContentSize().width + 2, this.getContentSize().height + 2));
+            this.shape.group = 0;
+            this.shape.layers = BLOCK_TYPE;
 
         } else {
             this.body = Space.addBody(new cp.Body(this.mass, cp.momentForCircle(this.mass, this.getContentSize().width, this.getContentSize().height, cp.vzero)));
@@ -46,5 +48,6 @@ var PixelBlock = cc.PhysicsSprite.extend({
         this.body.setPos(cp.v(x, y));
         Space.removeStaticShape(this.shape);
         this.shape = Space.addShape(new cp.BoxShape(this.body, this.getContentSize().width + 2, this.getContentSize().height + 2));
+        this.shape.setSensor(true);
     }
 });

@@ -1,0 +1,39 @@
+{"frames": [
+
+{
+	"filename": "CloseNormal.png",
+	"frame": {"x":2,"y":2,"w":40,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":40,"h":40},
+	"sourceSize": {"w":40,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "CloseSelected.png",
+	"frame": {"x":44,"y":2,"w":37,"h":37},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":37,"h":37},
+	"sourceSize": {"w":40,"h":40},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "circle-35x35.png",
+	"frame": {"x":83,"y":2,"w":35,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":35,"h":35},
+	"sourceSize": {"w":35,"h":35},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "test2.png",
+	"format": "RGBA8888",
+	"size": {"w":120,"h":44},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:0ea9f15bbb8f64e67e95de1910e744bc:0706570503e36780616bc8a6eb514061:2b6ca54a26bee1ea23ee4f76ceb8a25b$"
+}
+}

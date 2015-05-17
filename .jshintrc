@@ -94,9 +94,7 @@
         "res",
         "PROJECTILE_TYPE",
         "WALL_TYPE",
-        "BLOCK_TYPE",
-
-
+        "BLOCK_TYPE"
     ]
     // Custom Globals
 

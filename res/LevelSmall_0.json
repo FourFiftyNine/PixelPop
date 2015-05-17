@@ -1,0 +1,2001 @@
+{
+  "ID": "95cbebb1-0808-42b6-b0b6-d11e0e2b64d1",
+  "Version": "2.2.6.0",
+  "Name": "LevelSmall_0",
+  "Content": {
+    "Content": {
+      "Animation": {
+        "Duration": 0,
+        "Speed": 1.0,
+        "Timelines": [],
+        "ctype": "TimelineActionData"
+      },
+      "AnimationList": [],
+      "ObjectData": {
+        "Tag": 323,
+        "Children": [
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 35.5001,
+              "Y": 1058.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0095,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.0555,
+              "Y": 0.9318
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 5.5001,
+            "RightMargin": 574.4999,
+            "TopMargin": 47.46,
+            "BottomMargin": 1028.54,
+            "Tag": 519,
+            "ActionTag": 326136360,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 73.25,
+              "Y": 1059.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 217,
+              "G": 100,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.1145,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 43.25,
+            "RightMargin": 536.75,
+            "TopMargin": 46.46,
+            "BottomMargin": 1029.54,
+            "Tag": 520,
+            "ActionTag": -1881847489,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 111.0,
+              "Y": 1059.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 217,
+              "G": 126,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.1734,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 81.0,
+            "RightMargin": 499.0,
+            "TopMargin": 46.46,
+            "BottomMargin": 1029.54,
+            "Tag": 521,
+            "ActionTag": 69020161,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_1",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 148.75,
+              "Y": 1059.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 232,
+              "G": 129,
+              "B": 0
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.2324,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 118.75,
+            "RightMargin": 461.25,
+            "TopMargin": 46.46,
+            "BottomMargin": 1029.54,
+            "Tag": 522,
+            "ActionTag": 499447448,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_2",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 186.5,
+              "Y": 1059.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "G": 165,
+              "B": 0
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.2914,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 156.5,
+            "RightMargin": 423.5,
+            "TopMargin": 46.46,
+            "BottomMargin": 1029.54,
+            "Tag": 523,
+            "ActionTag": 1200121346,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_3",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 223.25,
+              "Y": 1059.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "G": 217,
+              "B": 0
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.3488,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 193.25,
+            "RightMargin": 386.75,
+            "TopMargin": 46.46,
+            "BottomMargin": 1029.54,
+            "Tag": 524,
+            "ActionTag": 1367100458,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_4",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 261.9999,
+              "Y": 1059.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 246,
+              "G": 247,
+              "B": 5
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.4094,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 231.9999,
+            "RightMargin": 348.0001,
+            "TopMargin": 46.46,
+            "BottomMargin": 1029.54,
+            "Tag": 525,
+            "ActionTag": 23590410,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_5",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 299.7499,
+              "Y": 1059.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 182,
+              "G": 230,
+              "B": 75
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.4684,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 269.7499,
+            "RightMargin": 310.2501,
+            "TopMargin": 46.46,
+            "BottomMargin": 1029.54,
+            "Tag": 526,
+            "ActionTag": -1987651888,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_6",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 337.5,
+              "Y": 1059.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 182,
+              "G": 230,
+              "B": 75
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5273,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 307.5,
+            "RightMargin": 272.5,
+            "TopMargin": 46.46,
+            "BottomMargin": 1029.54,
+            "Tag": 527,
+            "ActionTag": -1299644450,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_7",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 35.5001,
+              "Y": 1020.5402
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0095,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.0555,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 5.5001,
+            "RightMargin": 574.4999,
+            "TopMargin": 85.4597,
+            "BottomMargin": 990.5402,
+            "Tag": 528,
+            "ActionTag": 985249421,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_8",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 73.25,
+              "Y": 1020.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.1145,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 43.25,
+            "RightMargin": 536.75,
+            "TopMargin": 85.46,
+            "BottomMargin": 990.54,
+            "Tag": 529,
+            "ActionTag": 908271178,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_0_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 111.0,
+              "Y": 1020.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.1734,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 81.0,
+            "RightMargin": 499.0,
+            "TopMargin": 85.46,
+            "BottomMargin": 990.54,
+            "Tag": 530,
+            "ActionTag": 935850791,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_1_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 148.75,
+              "Y": 1020.5402
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.2324,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 118.75,
+            "RightMargin": 461.25,
+            "TopMargin": 85.4597,
+            "BottomMargin": 990.5402,
+            "Tag": 531,
+            "ActionTag": -2051758617,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_2_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 35.5001,
+              "Y": 1098.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0095,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.0555,
+              "Y": 0.967
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 5.5001,
+            "RightMargin": 574.4999,
+            "TopMargin": 7.46,
+            "BottomMargin": 1068.54,
+            "Tag": 532,
+            "ActionTag": -1861005347,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_9",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 73.25,
+              "Y": 1098.5403
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.1145,
+              "Y": 0.967
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 43.25,
+            "RightMargin": 536.75,
+            "TopMargin": 7.4597,
+            "BottomMargin": 1068.5403,
+            "Tag": 533,
+            "ActionTag": 1961029329,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_0_1",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 111.0,
+              "Y": 1098.5403
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.1734,
+              "Y": 0.967
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 81.0,
+            "RightMargin": 499.0,
+            "TopMargin": 7.4597,
+            "BottomMargin": 1068.5403,
+            "Tag": 534,
+            "ActionTag": -1306006262,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_1_1",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 148.75,
+              "Y": 1098.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.2324,
+              "Y": 0.967
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 118.75,
+            "RightMargin": 461.25,
+            "TopMargin": 7.46,
+            "BottomMargin": 1068.54,
+            "Tag": 535,
+            "ActionTag": 308799587,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_2_1",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 609.4989,
+              "Y": 1019.5001
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0324,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.9523,
+              "Y": 0.8974
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 579.4989,
+            "RightMargin": 0.5011,
+            "TopMargin": 86.4999,
+            "BottomMargin": 989.5001,
+            "Tag": 544,
+            "ActionTag": -410089007,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_10",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 571.7491,
+              "Y": 1020.5109
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0324,
+            "CColor": {
+              "R": 217,
+              "G": 100,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.8934,
+              "Y": 0.8983
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 541.7491,
+            "RightMargin": 38.2509,
+            "TopMargin": 85.489,
+            "BottomMargin": 990.5109,
+            "Tag": 545,
+            "ActionTag": 74693545,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_0_2",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 533.999,
+              "Y": 1020.5201
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0125,
+            "CColor": {
+              "R": 217,
+              "G": 126,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.8344,
+              "Y": 0.8983
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 503.999,
+            "RightMargin": 76.001,
+            "TopMargin": 85.48,
+            "BottomMargin": 990.5201,
+            "Tag": 546,
+            "ActionTag": -898942020,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_1_2",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 496.2488,
+              "Y": 1020.5297
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0125,
+            "CColor": {
+              "R": 232,
+              "G": 129,
+              "B": 0
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.7754,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 466.2488,
+            "RightMargin": 113.7512,
+            "TopMargin": 85.4702,
+            "BottomMargin": 990.5297,
+            "Tag": 547,
+            "ActionTag": 922553773,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_2_2",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 458.4993,
+              "Y": 1020.5405
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0125,
+            "CColor": {
+              "G": 165,
+              "B": 0
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.7164,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 428.4993,
+            "RightMargin": 151.5007,
+            "TopMargin": 85.4595,
+            "BottomMargin": 990.5405,
+            "Tag": 548,
+            "ActionTag": 1006610934,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_3_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 419.7492,
+              "Y": 1020.5502
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0125,
+            "CColor": {
+              "G": 217,
+              "B": 0
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.6559,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 389.7492,
+            "RightMargin": 190.2508,
+            "TopMargin": 85.4498,
+            "BottomMargin": 990.5502,
+            "Tag": 549,
+            "ActionTag": 1279684910,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_4_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 382.999,
+              "Y": 1020.5599
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0319,
+            "CColor": {
+              "R": 246,
+              "G": 247,
+              "B": 5
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5984,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 352.999,
+            "RightMargin": 227.001,
+            "TopMargin": 85.4402,
+            "BottomMargin": 990.5599,
+            "Tag": 550,
+            "ActionTag": -1401888321,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_5_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 345.2484,
+              "Y": 1020.5699
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0162,
+            "CColor": {
+              "R": 182,
+              "G": 230,
+              "B": 75
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5395,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 315.2484,
+            "RightMargin": 264.7516,
+            "TopMargin": 85.4302,
+            "BottomMargin": 990.5699,
+            "Tag": 551,
+            "ActionTag": -2023941344,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_6_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 307.499,
+              "Y": 1020.5798
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0224,
+            "CColor": {
+              "R": 10,
+              "G": 215,
+              "B": 29
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.4805,
+              "Y": 0.8984
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 277.499,
+            "RightMargin": 302.501,
+            "TopMargin": 85.4202,
+            "BottomMargin": 990.5798,
+            "Tag": 552,
+            "ActionTag": -1113740804,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_7_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 609.5084,
+              "Y": 1059.5005
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0324,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.9524,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 579.5084,
+            "RightMargin": 0.4916,
+            "TopMargin": 46.4995,
+            "BottomMargin": 1029.5005,
+            "Tag": 553,
+            "ActionTag": 1916570863,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_8_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 571.7592,
+              "Y": 1059.51
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0074,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.8934,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 541.7592,
+            "RightMargin": 38.2408,
+            "TopMargin": 46.49,
+            "BottomMargin": 1029.51,
+            "Tag": 554,
+            "ActionTag": -2029383402,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_0_0_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 534.0096,
+              "Y": 1059.5208
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0136,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.8344,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 504.0096,
+            "RightMargin": 75.9904,
+            "TopMargin": 46.4792,
+            "BottomMargin": 1029.5208,
+            "Tag": 555,
+            "ActionTag": 137976595,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_1_0_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 496.2595,
+              "Y": 1059.53
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0199,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.7754,
+              "Y": 0.9327
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 466.2595,
+            "RightMargin": 113.7405,
+            "TopMargin": 46.47,
+            "BottomMargin": 1029.53,
+            "Tag": 556,
+            "ActionTag": 880934601,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_2_0_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 609.4892,
+              "Y": 981.5007
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0324,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.9523,
+              "Y": 0.864
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 579.4892,
+            "RightMargin": 0.5108,
+            "TopMargin": 124.4993,
+            "BottomMargin": 951.5007,
+            "Tag": 557,
+            "ActionTag": -2137559391,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_9_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 571.739,
+              "Y": 981.5105
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0198,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.8933,
+              "Y": 0.864
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 541.739,
+            "RightMargin": 38.261,
+            "TopMargin": 124.4895,
+            "BottomMargin": 951.5105,
+            "Tag": 558,
+            "ActionTag": -705142131,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_0_1_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 533.9886,
+              "Y": 981.5198
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0313,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.8344,
+              "Y": 0.864
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 503.9886,
+            "RightMargin": 76.0114,
+            "TopMargin": 124.4802,
+            "BottomMargin": 951.5198,
+            "Tag": 559,
+            "ActionTag": 1828151129,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_1_1_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 496.2387,
+              "Y": 981.53
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0125,
+            "CColor": {
+              "R": 217,
+              "G": 45,
+              "B": 45
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.7754,
+              "Y": 0.864
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 466.2387,
+            "RightMargin": 113.7613,
+            "TopMargin": 124.47,
+            "BottomMargin": 951.53,
+            "Tag": 560,
+            "ActionTag": -1193078032,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_2_1_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 316.7499,
+              "Y": 982.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 12,
+              "G": 195,
+              "B": 113
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.4949,
+              "Y": 0.8649
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 286.7499,
+            "RightMargin": 293.2501,
+            "TopMargin": 123.46,
+            "BottomMargin": 952.54,
+            "Tag": 561,
+            "ActionTag": -522772414,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_6_1",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 354.5,
+              "Y": 982.54
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0068,
+            "CColor": {
+              "R": 12,
+              "G": 195,
+              "B": 113
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.5539,
+              "Y": 0.8649
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 324.5,
+            "RightMargin": 255.5,
+            "TopMargin": 123.46,
+            "BottomMargin": 952.54,
+            "Tag": 562,
+            "ActionTag": 919663452,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_7_1",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 362.2484,
+              "Y": 943.5699
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0162,
+            "CColor": {
+              "R": 37,
+              "G": 194,
+              "B": 210
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.566,
+              "Y": 0.8306
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 332.2484,
+            "RightMargin": 247.7516,
+            "TopMargin": 162.4301,
+            "BottomMargin": 913.5699,
+            "Tag": 563,
+            "ActionTag": -329647336,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_6_0_0",
+            "ctype": "SpriteObjectData"
+          },
+          {
+            "FileData": {
+              "Type": "Normal",
+              "Path": "rounded-square.png",
+              "Plist": ""
+            },
+            "BlendFunc": {
+              "Src": 1,
+              "Dst": 771
+            },
+            "AnchorPoint": {
+              "ScaleX": 0.5,
+              "ScaleY": 0.5
+            },
+            "Position": {
+              "X": 324.499,
+              "Y": 943.5798
+            },
+            "Scale": {
+              "ScaleX": 0.55,
+              "ScaleY": 0.55
+            },
+            "Rotation": 10.0,
+            "RotationSkewX": 10.0,
+            "RotationSkewY": 10.0224,
+            "CColor": {
+              "R": 37,
+              "G": 194,
+              "B": 210
+            },
+            "IconVisible": false,
+            "PrePosition": {
+              "X": 0.507,
+              "Y": 0.8306
+            },
+            "PreSize": {
+              "X": 0.0,
+              "Y": 0.0
+            },
+            "LeftMargin": 294.499,
+            "RightMargin": 285.501,
+            "TopMargin": 162.4202,
+            "BottomMargin": 913.5798,
+            "Tag": 564,
+            "ActionTag": 394039256,
+            "Size": {
+              "X": 60.0,
+              "Y": 60.0
+            },
+            "Name": "Sprite_1_7_0_0",
+            "ctype": "SpriteObjectData"
+          }
+        ],
+        "Size": {
+          "X": 640.0,
+          "Y": 1136.0
+        },
+        "Name": "Scene",
+        "ctype": "SingleNodeObjectData"
+      },
+      "ctype": "GameProjectData"
+    }
+  },
+  "Type": "Scene"
+}

@@ -4,34 +4,28 @@ var MyLayer = cc.LayerColor.extend({
     lastProjectilePos: null,
     init: function() {
         this.projectile = new Projectile();
+        this.shooter = new Shooter();
         this.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
         this.activeProjectiles = [];
         this.activeProjectiles.push(this.projectile);
-
         this._super(cc.color(42, 42, 42, 255));
         this.setBoundries(Space);
+
         this.ceiling.setCollisionType(WALL_TYPE);
         this.floor.setCollisionType(WALL_TYPE);
         this.rwall.setCollisionType(WALL_TYPE);
         this.lwall.setCollisionType(WALL_TYPE);
 
         this.blockLevel(res.Level1_json);
+        // this.blockLevel(res.Level2_json);
+
+        // Add Projectile Above the level (to adjust overlaps)
         this.addChild(this.projectile);
+        this.addChild(this.shooter);
 
         this.removeEntitites = [];
         this.blockRemovalQueued = false;
-        var drawNode = new cc.DrawNode();
-
-        // drawNode.drawSegment(start, end2, 2, cc.color(255, 0, 0));
-
-        drawNode.drawDot(cp.v(65.4, 1011), 2, cc.color(255, 255, 255));
-        // this.addChild(drawNode);
         this.initMouse();
-        // Spatial whatever
-        // Space.setDefaultCollisionHandler(function(arb) {
-        //     // cc.log('Space.setDefaultCollisionHandler: ', setDefaultCollisionHandler);
-        // });
-
         this.blockCollisionHandler();
 
         // Wall Collision
@@ -62,8 +56,6 @@ var MyLayer = cc.LayerColor.extend({
                     that.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
                     that.addChild(that.projectile);
                     that.activeProjectiles.push(that.projectile);
-                },
-                onMouseMove: function(event){
                 }
             }, this);
     },
@@ -71,11 +63,11 @@ var MyLayer = cc.LayerColor.extend({
         cc.log('arguments: ', arguments);
         cc.log('postStepRemoveBlock');
         cc.log('shapeToRemove: ', shapeToRemove);
-        shapeToRemove.body.sprite.removeStatic();
-        // shapeToRemove.setSensor(true);
+        // shapeToRemove.body.sprite.removeStatic();
+        shapeToRemove.setSensor(true);
         // Space.removeBody(shapeToRemove.body);
         // debugger;
-        // Space.removeShape(shapeToRemove);
+        Space.removeShape(shapeToRemove);
         this.blockRemovalQueued = false;
         // debugger;
         // if (this.removeEntitites.length) {
@@ -92,18 +84,17 @@ var MyLayer = cc.LayerColor.extend({
         //     debugger;
         // }
     },
-    segmentResult: function() {
-        cc.log('seg result');
-    },
     blockCollisionHandler: function() {
         Space.addCollisionHandler(PROJECTILE_TYPE, BLOCK_TYPE,
             function begin(arbiter, space) {
+                cc.log('[Block Collision Handler] Begin-----------------------------------------------')
+                cc.log('arbiter.b: ', arbiter.b);
 
-                // if (this.blockRemovalQueued === true) {
-                //     cc.log('-----------------------------return false');
-                //     return false;
-                // }
-                cc.log('BEING-----------------------------------------------')
+                if (this.blockRemovalQueued === true) {
+                    cc.log('-----------------------------return false');
+                    return false;
+                }
+
                 cc.log('this.lastProjectilePos: ', this.lastProjectilePos);
                 cc.log('this.projectile.vx: ', this.projectile.vx);
                 cc.log('this.projectile.vy: ', this.projectile.vy);
@@ -142,15 +133,15 @@ var MyLayer = cc.LayerColor.extend({
                 cc.log('end2: ', end2);
                 var drawNode = new cc.DrawNode();
                 if (this.lastDrawNode) {
-                    // this.removeChild(this.lastDrawNode);
+                    this.removeChild(this.lastDrawNode);
                 }
-                drawNode.drawSegment(start, end1, 2, cc.color(255, 0, 255));
+                // drawNode.drawSegment(start, end1, 2, cc.color(255, 0, 255));
                 // drawNode.drawSegment(start, end2, 2, cc.color(255, 0, 0));
 
-                drawNode.drawDot(start, 2, cc.color(255, 255, 255));
+                // drawNode.drawDot(start, 2, cc.color(255, 255, 255));
                 // cc.log('drawNode: ', drawNode);
                 this.lastDrawNode = drawNode;
-                // this.addChild(drawNode);
+                this.addChild(drawNode);
 
                 var firstHitResult = false;
                 var collisionNormal;
@@ -161,6 +152,18 @@ var MyLayer = cc.LayerColor.extend({
                 } else {
                     return false;
                 }
+
+                if (queryResult.shape.bb_l === arbiter.b.bb_l &&
+                    queryResult.shape.bb_t === arbiter.b.bb_t) {
+                    cc.log('[Match] Positive')
+                    // return true;
+                } else {
+                    cc.log('[Match] Negative')
+                }
+
+                cc.log('[Match] arbiter.b: ', arbiter.b);
+                cc.log('[Match] queryResult: ', queryResult);
+                cc.log('[Match] ------------------------------------ end')
                 if (firstHitResult === false &&
                     queryResult.shape.type !== "segment" &&
                     queryResult.shape.body.sprite &&
@@ -175,14 +178,14 @@ var MyLayer = cc.LayerColor.extend({
                     cc.log('exitPointVect: ', exitPointVect);
                     if (firstHitResult.body.sprite) {
                         Space.addPostStepCallback(this.postStepRemoveBlock.bind(this, firstHitResult));
-                        this.removeChild(firstHitResult.body.sprite);
+                        // this.removeChild(firstHitResult.body.sprite);
                         firstHitResult.body.sprite.color = cc.color(0, 0, 255);
                         this.blockRemovalQueued = true;
                     }
 
                     // Set point of contact -- not last position
                     var finalCollisionPoint = enterPointVect;
-                    this.lastBlockCollision = cp.v(Math.floor(finalCollisionPoint.x), Math.floor(finalCollisionPoint.y));
+                    this.lastBlockCollision = cp.v(finalCollisionPoint.x, finalCollisionPoint.y);
                     var newPositionX = finalCollisionPoint.x;
                     var newPositionY = finalCollisionPoint.y;
 
@@ -216,17 +219,17 @@ var MyLayer = cc.LayerColor.extend({
                     cc.log('new lastBlockCollision: ', this.lastBlockCollision)
                     this.projectile.sprite.body.setPos(cp.v(newPositionX, newPositionY));
                     var drawNode = new cc.DrawNode();
-                    drawNode.drawDot(finalCollisionPoint, 2, cc.color(0, 255, 0));
-                    // this.addChild(drawNode);
-                    debugger;
-                    return false;
+                    drawNode.drawDot(this.lastBlockCollision, 2, cc.color(0, 255, 0));
+                    this.addChild(drawNode);
+                    // debugger;
+                    return true;
 
                 }
             }.bind(this),
             function preSolve(arb, space) {
-                var n = arb.getContactPointSet()[0].normal;
+                // var n = arb.getContactPointSet()[0].normal;
                 // cc.log('[Block Collision] preSolve(arb, space)');
-                // cc.log('[Block Collision] preSolve: arb: ', arb);
+                cc.log('[Block Collision Handler]  preSolve: <arb class="b"></arb>: ', arb.b);
                 // cc.log('[Block Collision] preSolve: space: ', space);
                 // cc.log('[Block Collision] preSolve: arb normal: ', n);
                 // debugger;
@@ -234,8 +237,8 @@ var MyLayer = cc.LayerColor.extend({
             },
             function postSolve(arb, space) {
                 // cc.log('[Block Collision] postSolve(arb, space)');
-                // cc.log('[Block Collision] postSolve: arb: ', arb);
-                var n = arb.getContactPointSet()[0].normal;
+                cc.log('[Block Collision Handler] postSolve: <arb class="b"></arb>: ', arb.b);
+                // var n = arb.getContactPointSet()[0].normal;
                 // cc.log('[Block Collision] postSolve: arb normal: ', n);
                 // cc.log('[Block Collision] postSolve: space: ', space);
                 // debugger;
@@ -254,16 +257,16 @@ var MyLayer = cc.LayerColor.extend({
     },
     blockLevel: function(resourceJson) {
         var level1 = ccs.load(resourceJson);
+        // var what = ccs.load(res.Test);
         var pixels = level1.node.getChildren();
         var sprites = [];
         for (var i = 0; i < pixels.length; i++) {
-            var sprite = new PixelBlock({x: pixels[i].x, y: pixels[i].y}, true);
-            // var sprite = new PixelBlock({x: 300, y: 400}, true);
+            var sprite = new PixelBlock({x: pixels[i].x, y: pixels[i].y - 50}, true);
             sprite.color = pixels[i].color;
             sprite.shape.setCollisionType(BLOCK_TYPE)
+            sprite.setRotation(pixels[i].getRotationX());
             sprites.push(sprite);
             this.addChild(sprite);
-            // break;
         }
         this.pixelBlocks = sprites;
     },
@@ -277,28 +280,9 @@ var MyLayer = cc.LayerColor.extend({
             sprites.push(sprite);
             this.addChild(sprite);
         }
-
-        // function fuckWithLevel() {
-        //     setTimeout(function() {
-        //         for (var i = 0; i < sprites.length; i++) {
-        //             sprites[i].removeStatic();
-        //         }
-        //         // setTimeout(function() {
-        //         //     sprites[10].setStatic();
-        //         //     sprites[40].setStatic();
-        //         //     sprites[50].setStatic();
-        //         //     sprites[60].setStatic();
-        //         //     sprites[60].setStatic();
-        //         // }.bind(this), 1200)
-        //     }.bind(this), 1000);
-        // }
-
-        // fuckWithLevel();
     },
     setBoundries: function (space) {
         var thickness = 120;
-        //this.setTouchEnabled(true);
-        //add floor
         var winWidth = cc.director.getWinSize().width;
         var winHeight = cc.director.getWinSize().height;
 
@@ -358,140 +342,39 @@ var MyLayer = cc.LayerColor.extend({
         this.rwall = rwall;
         this.floor = floor;
         this.ceiling = ceiling;
-
-        // var rwallBB = this.rwall.getBB();
-        // cc.log('rwallBB: ', rwallBB);
-        // var rwallRect = cc.rect(rwallBB.l, rwallBB.b, 10, rwallBB.t);
-        // cc.log('rwallRect: ', rwallRect);
-
-        // var lwallBB = this.lwall.getBB();
-        // cc.log('lwallBB ' , lwallBB);
-        // var lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
-        // cc.log('lwallRect: ', lwallRect);
-
-        // var floorBB = this.floor.getBB();
-        // cc.log('floor ' , floor);
-        // var floorRect = cc.rect(floorBB.l, floorBB.b + 40, floorBB.r, 2);
-        // cc.log('floorRect: ', floorRect);
-
-        // var ceilingBB = this.ceiling.getBB();
-        // cc.log('ceilingBB ' , ceilingBB);
-        // var ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 40, ceilingBB.r, 2);
-        // cc.log('ceilingRect: ', ceilingRect);
-
-        // this.createWallRects();
-    },
-    testSprites: function(num) {
-        var count = 1;
-        var maxCount = num || 250;
-        var interval = setInterval(function () {
-            if (count === maxCount) {
-                clearInterval(interval);
-            }
-            var r = 255 - count;
-            var g = 255 - 2 * count;
-            var b = 255 - 3 * count;
-            var isStatic;
-            // cc.log(r);
-
-            if (count == 3 ) {
-                var sprite = new PixelSprite({x: 500, y: 500}, false);
-                // sprite.setStatic();
-                // sprite.color = cc.color(255, g, b);
-                setTimeout(function() {
-                    sprite.setStatic();
-                    // var debugNode = new cc.PhysicsDebugNode(Space);
-                    // debugNode.visible = true;
-                    // this.addChild(debugNode);
-
-                }.bind(this), num * 9.8);
-            } else {
-                var xOffset = (count % 2) ? -(5) : 5;
-                var sprite = new PixelSprite({x: 500 + xOffset, y: 500}, false);
-                sprite.color = cc.color(r, g, b);
-            }
-            // if (isStatic) {
-            //     cc.log('isStatic');
-
-            //     var sprite = new PixelSprite({x: 200, y: 500}, false);
-            //     sprite.color = cc.color(r, g, b);
-            //     sprite.color = cc.color(r, 0, 0);
-
-            //     sprite.setStatic();
-            // }
-
-            var rwallBB = this.rwall.getBB();
-            var rwallRect = cc.rect(rwallBB.l, rwallBB.b, 10, rwallBB.t);
-            // cc.log('rwallRect: ', rwallRect);
-
-            var lwallBB = this.lwall.getBB();
-            var lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
-            // cc.log('lwallRect: ', lwallRect);
-
-            var floor = this.floor.getBB();
-            var floorRect = cc.rect(floor.l, floor.b + 40, floor.r, 2);
-            // cc.log('floorRect: ', floorRect);
-
-            var ceilingBB = this.ceiling.getBB();
-            var ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 40, ceilingBB.r, 2);
-            // cc.log('ceilingRect: ', ceilingRect);
-
-            this.addChild(sprite);
-            count++;
-        }.bind(this), 10);
     },
     createWallRects: function() {
         var rwallBB = this.rwall.getBB();
-        this.rwallRect = cc.rect(rwallBB.l, rwallBB.b, 50, rwallBB.t);
-        this.rwallRect.color = cc.color(255, 255, 0);
-        // cc.log('rwallRect: ', rwallRect);
-
         var lwallBB = this.lwall.getBB();
-        this.lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
-        // cc.log('lwallRect: ', lwallRect);
-
         var floor = this.floor.getBB();
-        this.floorRect = cc.rect(floor.l, floor.b + 30, floor.r, 20);
-        // cc.log('floorRect: ', floorRect);
-
         var ceilingBB = this.ceiling.getBB();
+
+        this.lwallRect = cc.rect(lwallBB.r, lwallBB.b, 10, lwallBB.t);
+        this.rwallRect = cc.rect(rwallBB.l, rwallBB.b, 50, rwallBB.t);
+        this.floorRect = cc.rect(floor.l, floor.b + 30, floor.r, 20);
         this.ceilingRect = cc.rect(ceilingBB.l, ceilingBB.t - 50, ceilingBB.r, 20);
     },
     wallCollisionBegin: function(arb) {
         var n = arb.getNormal(0);
-        // debugger;
         var absDepth = Math.abs(arb.getDepth(0));
-        // cc.log('[Wall Collision] postSolve(): arb.getPoint(0): ', arb.getPoint(0));
-        // cc.log('[Wall Collision] postSolve(): arb.getDepth(0): ', arb.getDepth(0));
-        // cc.log('[Wall Collision] postSolve(): arb.getNormal(0): ', arb.getNormal(0));
         var curPos = this.projectile.sprite.getPosition();
         var sprite = this.projectile.sprite;
+        var wallPosName;
 
-        // debugger;
         if (Math.abs(n.y) > 0.7071) {
             if (n.y >= 0) {
                 cc.log('top');
-                var wallPos = 'top';
-                // if (wallPos === this.lastWallCollision) {
-                    // return true;
-                // }
-
-                this.lastWallCollision = wallPos;
+                wallPosName = 'top';
                 this.projectile.setAfterWallCollision(
                     curPos.x,
                     curPos.y - absDepth,
                     this.projectile.vx,
                     -(Math.abs(this.projectile.vy))
                 );
-
             }
             if (n.y < 0) {
                 cc.log('bottom')
-                var wallPos = 'bottom';
-                // if (wallPos === this.lastWallCollision) {
-                    // return true;
-                // }
-                this.lastWallCollision = wallPos;
+                wallPosName = 'bottom';
 
                 this.projectile.setAfterWallCollision(
                     curPos.x,
@@ -500,16 +383,10 @@ var MyLayer = cc.LayerColor.extend({
                     (Math.abs(this.projectile.vy))
                 );
             }
-
         } else {
             if (n.x >= 0) {
                 cc.log('right')
-                var wallPos = 'right';
-                // if (wallPos === this.lastWallCollision) {
-                    // return true;
-                // }
-                this.lastWallCollision = wallPos;
-
+                wallPosName = 'right';
                 this.projectile.setAfterWallCollision(
                     curPos.x - absDepth,
                     curPos.y,
@@ -519,12 +396,7 @@ var MyLayer = cc.LayerColor.extend({
             }
             if (n.x < 0) {
                 cc.log('left')
-                var wallPos = 'left';
-                // if (wallPos === this.lastWallCollision) {
-                    // return true;
-                // }
-                this.lastWallCollision = wallPos;
-
+                wallPosName = 'left';
                 this.projectile.setAfterWallCollision(
                     curPos.x + absDepth,
                     curPos.y,
@@ -533,33 +405,26 @@ var MyLayer = cc.LayerColor.extend({
                 );
             }
         }
-        this.lastBlockCollision = false;
+
+        this.lastWallCollision = wallPosName;
         this.lastBlockCollision = false;
         return true;
     },
     update:function(dt){
         // cc.log('------------UPDATE------------');
         // debugger;
-        // cc.log('this.projectile.vy: ', this.projectile.vy);
-        // arb.a.body.setVel(cp.v(vx, vy * -1));
         for (var i = 0; i < this.activeProjectiles.length; i++) {
             this.activeProjectiles[i]
                 .sprite
                 .body
                 .setVel(cp.v(this.activeProjectiles[i].vx, this.activeProjectiles[i].vy));
         };
-        // this.projectile.
         this.lastProjectilePos = this.projectile.sprite.getPosition();
-        // this.checkBlockCollisions();
-        // this.projectile.sprite.setPosition(curPos.x + this.projectile.vx, curPos.y + this.projectile.vy);
         Space.step(dt);
     }
 });
 
 var HelloWorldScene = cc.Scene.extend({
-    init: function() {
-        // cc.log('init');
-    },
     onEnter:function () {
         this._super();
         var layer = new MyLayer();

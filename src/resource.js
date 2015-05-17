@@ -8,7 +8,9 @@ var res = {
     pixel : "res/circle-34x34.png",
     Row_json : "res/Row.json",
     Level1_json : "res/Level1.json",
-    Level_json : "res/Level.json"
+    Level_json : "res/Level.json",
+    Level2_json : "res/LevelSmall_0.json",
+    Test : "res/test2.json"
 };
 
 var g_resources = [];

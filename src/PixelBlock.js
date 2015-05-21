@@ -49,5 +49,6 @@ var PixelBlock = cc.PhysicsSprite.extend({
         Space.removeStaticShape(this.shape);
         this.shape = Space.addShape(new cp.BoxShape(this.body, this.getContentSize().width + 2, this.getContentSize().height + 2));
         this.shape.setSensor(true);
+        this.shape.setCollisionType(BLOCK_TYPE);
     }
 });

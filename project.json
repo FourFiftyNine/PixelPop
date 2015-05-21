@@ -15,6 +15,7 @@
         "src/resource.js",
         "src/Projectile.js",
         "src/Shooter.js",
+        "src/Paddle.js",
         "src/PixelBlock.js",
         "src/PixelSprite.js",
         "src/app.js"

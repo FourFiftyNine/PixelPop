@@ -5,6 +5,7 @@ var MyLayer = cc.LayerColor.extend({
     init: function() {
         this.projectile = new Projectile();
         this.shooter = new Shooter();
+        this.paddle = new Paddle();
         this.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
         this.activeProjectiles = [];
         this.activeProjectiles.push(this.projectile);
@@ -22,6 +23,7 @@ var MyLayer = cc.LayerColor.extend({
         // Add Projectile Above the level (to adjust overlaps)
         this.addChild(this.projectile);
         this.addChild(this.shooter);
+        this.addChild(this.paddle);
 
         this.removeEntitites = [];
         this.blockRemovalQueued = false;
@@ -33,6 +35,16 @@ var MyLayer = cc.LayerColor.extend({
             PROJECTILE_TYPE,
             WALL_TYPE,
             this.wallCollisionBegin.bind(this),
+            null,
+            null,
+            null
+        );
+
+        // Paddle Collisions
+        Space.addCollisionHandler(
+            BLOCK_TYPE,
+            SEGMENT_TYPE,
+            null,
             null,
             null,
             null
@@ -50,24 +62,24 @@ var MyLayer = cc.LayerColor.extend({
         if ('mouse' in cc.sys.capabilities)
             cc.eventManager.addListener({
                 event: cc.EventListener.MOUSE,
-                onMouseDown: function(event) {
-                    cc.log('click');
-                    that.projectile = new Projectile();
-                    that.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
-                    that.addChild(that.projectile);
-                    that.activeProjectiles.push(that.projectile);
-                }
+                // onMouseDown: function(event) {
+                //     cc.log('click');
+                //     that.projectile = new Projectile();
+                //     that.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
+                //     that.addChild(that.projectile);
+                //     that.activeProjectiles.push(that.projectile);
+                // }
             }, this);
     },
     postStepRemoveBlock: function(shapeToRemove) {
         cc.log('arguments: ', arguments);
         cc.log('postStepRemoveBlock');
         cc.log('shapeToRemove: ', shapeToRemove);
-        // shapeToRemove.body.sprite.removeStatic();
-        shapeToRemove.setSensor(true);
+        shapeToRemove.body.sprite.removeStatic();
+        // shapeToRemove.setSensor(true);
         // Space.removeBody(shapeToRemove.body);
         // debugger;
-        Space.removeShape(shapeToRemove);
+        // Space.removeShape(shapeToRemove);
         this.blockRemovalQueued = false;
         // debugger;
         // if (this.removeEntitites.length) {
@@ -263,7 +275,7 @@ var MyLayer = cc.LayerColor.extend({
         for (var i = 0; i < pixels.length; i++) {
             var sprite = new PixelBlock({x: pixels[i].x, y: pixels[i].y - 50}, true);
             sprite.color = pixels[i].color;
-            sprite.shape.setCollisionType(BLOCK_TYPE)
+            sprite.shape.setCollisionType(BLOCK_TYPE);
             sprite.setRotation(pixels[i].getRotationX());
             sprites.push(sprite);
             this.addChild(sprite);
@@ -287,21 +299,21 @@ var MyLayer = cc.LayerColor.extend({
         var winHeight = cc.director.getWinSize().height;
 
         // Raised floor for debugging
-        var floor = Space.addShape(
-            new cp.SegmentShape(
-                Space.staticBody,
-                cp.v(0, 0, 500 + thickness),
-                cp.v(winWidth, 0, 500 + thickness),
-                500 + thickness
-            ));
-
         // var floor = Space.addShape(
         //     new cp.SegmentShape(
         //         Space.staticBody,
-        //         cp.v(0, 0 - thickness),
-        //         cp.v(winWidth, 0 - thickness),
-        //         thickness
+        //         cp.v(0, 0, 500 + thickness),
+        //         cp.v(winWidth, 0, 500 + thickness),
+        //         500 + thickness
         //     ));
+
+        var floor = Space.addShape(
+            new cp.SegmentShape(
+                Space.staticBody,
+                cp.v(0, 0 - thickness),
+                cp.v(winWidth, 0 - thickness),
+                thickness
+            ));
 
         var lwall = Space.addShape(
             new cp.SegmentShape(

@@ -4,7 +4,7 @@ var Projectile = cc.Node.extend({
     ctor: function(pos) {
         this._super();
 
-        this.pos = pos || {x: 305, y: 500};
+        this.pos = pos || {x: 305, y: 90};
         this.name = 'Projectile';
         // this.scheduleUpdate();
 
@@ -14,6 +14,8 @@ var Projectile = cc.Node.extend({
         // sprite.body = Space.addBody(new cp.Body(100, Infinity));
         sprite.body = Space.addBody(new cp.Body(1, cp.momentForCircle(1, sprite.getContentSize().width, sprite.getContentSize().height, cp.vzero)));
         // // sprite.body = cp.StaticBody();
+        cc.log('[Bullet] ctor:', this.pos.x);
+        cc.log('[Bullet] ctor:', this.pos.y);
         sprite.body.setPos(cp.v(this.pos.x, this.pos.y));
 
         // Circular dependency

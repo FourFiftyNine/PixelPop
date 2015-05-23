@@ -4,8 +4,8 @@ var MyLayer = cc.LayerColor.extend({
     lastProjectilePos: null,
     init: function() {
         this.projectile = new Projectile();
-        this.shooter = new Shooter();
-        this.paddle = new Paddle();
+        // this.shooter = new Shooter();
+        // this.paddle = new Paddle();
         this.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
         this.activeProjectiles = [];
         this.activeProjectiles.push(this.projectile);
@@ -18,12 +18,14 @@ var MyLayer = cc.LayerColor.extend({
         this.lwall.setCollisionType(WALL_TYPE);
 
         this.blockLevel(res.Level1_json);
+        // this.createPivotJoint();
+
         // this.blockLevel(res.Level2_json);
 
         // Add Projectile Above the level (to adjust overlaps)
         this.addChild(this.projectile);
-        this.addChild(this.shooter);
-        this.addChild(this.paddle);
+        // this.addChild(this.shooter);
+        // this.addChild(this.paddle);
 
         this.removeEntitites = [];
         this.blockRemovalQueued = false;
@@ -50,11 +52,14 @@ var MyLayer = cc.LayerColor.extend({
             null
         );
 
-        // var debugNode = new cc.PhysicsDebugNode(Space);
-        // debugNode.visible = true;
-        // this.addChild(debugNode);
 
+        this.enableDebugNodes();
         this.scheduleUpdate();
+    },
+    enableDebugNodes: function() {
+        var debugNode = new cc.PhysicsDebugNode(Space);
+        debugNode.visible = true;
+        this.addChild(debugNode);
     },
     // BROKE
     initMouse: function() {
@@ -62,14 +67,27 @@ var MyLayer = cc.LayerColor.extend({
         if ('mouse' in cc.sys.capabilities)
             cc.eventManager.addListener({
                 event: cc.EventListener.MOUSE,
-                // onMouseDown: function(event) {
-                //     cc.log('click');
-                //     that.projectile = new Projectile();
-                //     that.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
-                //     that.addChild(that.projectile);
-                //     that.activeProjectiles.push(that.projectile);
-                // }
+                onMouseDown: function(event) {
+                    cc.log('click');
+                    var clickX = event.getLocationX();
+                    var clickY = event.getLocationY();
+                    cc.log('clickX: ', clickX);
+                    cc.log('clickY: ', clickY);
+                    that.targetBody.setPos(cp.v(clickX, clickY));
+                    // that.projectile = new Projectile();
+                    // that.projectile.sprite.shape.setCollisionType(PROJECTILE_TYPE);
+                    // that.addChild(that.projectile);
+                    // that.activeProjectiles.push(that.projectile);
+                }
             }, this);
+    },
+    createPivotJoint: function() {
+        this.targetBody = cp.StaticBody();
+        var joint = new cp.PivotJoint(this.targetBody, this.projectile.sprite.body, cp.vzero, cp.vzero);
+        this.targetBody.setPos(cp.v(this.projectile.pos.x, this.projectile.pos.y));
+        joint.maxBias = 800;
+        joint.maxForce = 3000;
+        Space.addConstraint(joint);
     },
     postStepRemoveBlock: function(shapeToRemove) {
         cc.log('arguments: ', arguments);
@@ -99,37 +117,17 @@ var MyLayer = cc.LayerColor.extend({
     blockCollisionHandler: function() {
         Space.addCollisionHandler(PROJECTILE_TYPE, BLOCK_TYPE,
             function begin(arbiter, space) {
-                cc.log('[Block Collision Handler] Begin-----------------------------------------------')
-                cc.log('arbiter.b: ', arbiter.b);
+                cc.log('[Block Collision] // begin()');
 
                 if (this.blockRemovalQueued === true) {
-                    cc.log('-----------------------------return false');
                     return false;
                 }
-
-                cc.log('this.lastProjectilePos: ', this.lastProjectilePos);
-                cc.log('this.projectile.vx: ', this.projectile.vx);
-                cc.log('this.projectile.vy: ', this.projectile.vy);
-                // cc.log('arbiter.getShapes()[0].body.getPos(): ', arbiter.getShapes()[0].body.getPos());
-                var normal = arbiter.getNormal(0);
-                // cc.log('normal: ', normal);
-                // cc.log('arbiter: ', arbiter);
-                // cc.log('arbiter.getShapes()[1].group: ', arbiter.getShapes()[1].group);
-                // cc.log('arbiter.getShapes()[1].layers: ', arbiter.getShapes()[1].layers);
-                //
-                cc.log('this.lastBlockCollision: ', this.lastBlockCollision);
-                cc.log('this.lastBlockCollision: ', this.lastBlockCollision);
 
                 if (this.lastBlockCollision != false) {
                     var lastPos = this.lastBlockCollision;
                 } else {
-                    cc.log('NO BLOCK');
-                    cc.log('this.lastProjectilePos: ', this.lastProjectilePos);
                     var lastPos = this.lastProjectilePos;
-                    cc.log('this.lastProjectilePos: ', this.lastProjectilePos);
-                    cc.log('lastPos.x: ', lastPos.x);
                 }
-                cc.log('lastPos: ', lastPos);
 
                 var start = cp.v(lastPos.x, lastPos.y)
 
@@ -141,17 +139,16 @@ var MyLayer = cc.LayerColor.extend({
                 var segmentEndY2 = start.y - this.projectile.vy;
                 var end2 = cp.v(segmentEndX2, segmentEndY2);
 
-                cc.log('end1: ', end1);
-                cc.log('end2: ', end2);
                 var drawNode = new cc.DrawNode();
                 if (this.lastDrawNode) {
                     this.removeChild(this.lastDrawNode);
                 }
                 // drawNode.drawSegment(start, end1, 2, cc.color(255, 0, 255));
                 // drawNode.drawSegment(start, end2, 2, cc.color(255, 0, 0));
+                // drawNode.drawSegment(start, end2, 2, cc.color(255, 0, 0));
+
 
                 // drawNode.drawDot(start, 2, cc.color(255, 255, 255));
-                // cc.log('drawNode: ', drawNode);
                 this.lastDrawNode = drawNode;
                 this.addChild(drawNode);
 
@@ -167,15 +164,10 @@ var MyLayer = cc.LayerColor.extend({
 
                 if (queryResult.shape.bb_l === arbiter.b.bb_l &&
                     queryResult.shape.bb_t === arbiter.b.bb_t) {
-                    cc.log('[Match] Positive')
                     // return true;
                 } else {
-                    cc.log('[Match] Negative')
                 }
 
-                cc.log('[Match] arbiter.b: ', arbiter.b);
-                cc.log('[Match] queryResult: ', queryResult);
-                cc.log('[Match] ------------------------------------ end')
                 if (firstHitResult === false &&
                     queryResult.shape.type !== "segment" &&
                     queryResult.shape.body.sprite &&
@@ -186,8 +178,6 @@ var MyLayer = cc.LayerColor.extend({
                     var what = firstHitResult.segmentQuery(start, end1)
                     var enterPointVect = what.hitPoint(start, end1);
                     var exitPointVect = what.hitPoint(end1, start);
-                    cc.log('enterPointVect: ', enterPointVect);
-                    cc.log('exitPointVect: ', exitPointVect);
                     if (firstHitResult.body.sprite) {
                         Space.addPostStepCallback(this.postStepRemoveBlock.bind(this, firstHitResult));
                         // this.removeChild(firstHitResult.body.sprite);
@@ -197,38 +187,37 @@ var MyLayer = cc.LayerColor.extend({
 
                     // Set point of contact -- not last position
                     var finalCollisionPoint = enterPointVect;
+                    var distance = cp.v.dist(cp.v(this.lastProjectilePos.x, this.lastProjectilePos.y), cp.v(finalCollisionPoint.x, finalCollisionPoint.y));
+                    cc.log('distance: ', distance);
+                    if (distance > 50) {
+                        return false;
+                    }
                     this.lastBlockCollision = cp.v(finalCollisionPoint.x, finalCollisionPoint.y);
                     var newPositionX = finalCollisionPoint.x;
                     var newPositionY = finalCollisionPoint.y;
 
                     if (collisionNormal.y === -1) {
-                        cc.log('bottom of block');
                         newPositionY -= 7.5;
                         this.projectile.vy = -Math.abs(this.projectile.vy);
 
                     }
                     if (collisionNormal.y === 1) {
-                        cc.log('top of block');
                         newPositionY += 7.5;
                         this.projectile.vy = Math.abs(this.projectile.vy);
 
                     }
                     if (collisionNormal.x === 1) {
-                        cc.log('right of block');
                         newPositionX += 7.5;
                         this.projectile.vx = Math.abs(this.projectile.vx);
 
                     }
                     if (collisionNormal.x === -1) {
-                        cc.log('left of block');
                         newPositionX -= 7.5;
                         this.projectile.vx = -Math.abs(this.projectile.vx);
 
                     }
 
                     this.projectile.sprite.setPosition(cc.p(newPositionX, newPositionY));
-                    cc.log('------------------------???---------------------------')
-                    cc.log('new lastBlockCollision: ', this.lastBlockCollision)
                     this.projectile.sprite.body.setPos(cp.v(newPositionX, newPositionY));
                     var drawNode = new cc.DrawNode();
                     drawNode.drawDot(this.lastBlockCollision, 2, cc.color(0, 255, 0));
@@ -240,8 +229,7 @@ var MyLayer = cc.LayerColor.extend({
             }.bind(this),
             function preSolve(arb, space) {
                 // var n = arb.getContactPointSet()[0].normal;
-                // cc.log('[Block Collision] preSolve(arb, space)');
-                cc.log('[Block Collision Handler]  preSolve: <arb class="b"></arb>: ', arb.b);
+                // cc.log('[Block Collision Handler]  preSolve: <arb class="b"></arb>: ', arb.b);
                 // cc.log('[Block Collision] preSolve: space: ', space);
                 // cc.log('[Block Collision] preSolve: arb normal: ', n);
                 // debugger;
@@ -249,7 +237,7 @@ var MyLayer = cc.LayerColor.extend({
             },
             function postSolve(arb, space) {
                 // cc.log('[Block Collision] postSolve(arb, space)');
-                cc.log('[Block Collision Handler] postSolve: <arb class="b"></arb>: ', arb.b);
+                // cc.log('[Block Collision Handler] postSolve: <arb class="b"></arb>: ', arb.b);
                 // var n = arb.getContactPointSet()[0].normal;
                 // cc.log('[Block Collision] postSolve: arb normal: ', n);
                 // cc.log('[Block Collision] postSolve: space: ', space);
@@ -299,21 +287,21 @@ var MyLayer = cc.LayerColor.extend({
         var winHeight = cc.director.getWinSize().height;
 
         // Raised floor for debugging
-        // var floor = Space.addShape(
-        //     new cp.SegmentShape(
-        //         Space.staticBody,
-        //         cp.v(0, 0, 500 + thickness),
-        //         cp.v(winWidth, 0, 500 + thickness),
-        //         500 + thickness
-        //     ));
-
         var floor = Space.addShape(
             new cp.SegmentShape(
                 Space.staticBody,
-                cp.v(0, 0 - thickness),
-                cp.v(winWidth, 0 - thickness),
-                thickness
+                cp.v(0, 0, 500 + thickness),
+                cp.v(winWidth, 0, 500 + thickness),
+                500 + thickness
             ));
+
+        // var floor = Space.addShape(
+        //     new cp.SegmentShape(
+        //         Space.staticBody,
+        //         cp.v(0, 0 - thickness),
+        //         cp.v(winWidth, 0 - thickness),
+        //         thickness
+        //     ));
 
         var lwall = Space.addShape(
             new cp.SegmentShape(
@@ -375,7 +363,7 @@ var MyLayer = cc.LayerColor.extend({
 
         if (Math.abs(n.y) > 0.7071) {
             if (n.y >= 0) {
-                cc.log('top');
+                // cc.log('[Wall Collision] - Top');
                 wallPosName = 'top';
                 this.projectile.setAfterWallCollision(
                     curPos.x,
@@ -385,7 +373,7 @@ var MyLayer = cc.LayerColor.extend({
                 );
             }
             if (n.y < 0) {
-                cc.log('bottom')
+                // cc.log('[Wall Collision] - Bottom')
                 wallPosName = 'bottom';
 
                 this.projectile.setAfterWallCollision(
@@ -397,7 +385,7 @@ var MyLayer = cc.LayerColor.extend({
             }
         } else {
             if (n.x >= 0) {
-                cc.log('right')
+                // cc.log('[Wall Collision] - Right')
                 wallPosName = 'right';
                 this.projectile.setAfterWallCollision(
                     curPos.x - absDepth,
@@ -407,7 +395,7 @@ var MyLayer = cc.LayerColor.extend({
                 );
             }
             if (n.x < 0) {
-                cc.log('left')
+                // cc.log('[Wall Collision] - Left')
                 wallPosName = 'left';
                 this.projectile.setAfterWallCollision(
                     curPos.x + absDepth,

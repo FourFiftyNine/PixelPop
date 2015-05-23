@@ -1,6 +1,6 @@
 var Projectile = cc.Node.extend({
-    vx: -400,
-    vy: 400,
+    vx: 400,
+    vy: 600,
     ctor: function(pos) {
         this._super();
 
@@ -12,10 +12,11 @@ var Projectile = cc.Node.extend({
         // var sprite = new cc.Sprite();
         sprite.initWithFile(res.projectile);
         // sprite.body = Space.addBody(new cp.Body(100, Infinity));
-        sprite.body = Space.addBody(new cp.Body(1, cp.momentForCircle(1, sprite.getContentSize().width, sprite.getContentSize().height, cp.vzero)));
+        // sprite.body = Space.addBody(new cp.Body(1, cp.momentForCircle(1, sprite.getContentSize().width, sprite.getContentSize().height, cp.vzero)));
+        sprite.body = Space.addBody(new cp.Body(1, Infinity));
         // // sprite.body = cp.StaticBody();
-        cc.log('[Bullet] ctor:', this.pos.x);
-        cc.log('[Bullet] ctor:', this.pos.y);
+        // cc.log('[Bullet] ctor:', this.pos.x);
+        // cc.log('[Bullet] ctor:', this.pos.y);
         sprite.body.setPos(cp.v(this.pos.x, this.pos.y));
 
         // Circular dependency
@@ -26,6 +27,9 @@ var Projectile = cc.Node.extend({
         sprite.setScale(.5);
         sprite.shape.layers = PROJECTILE_TYPE;
         sprite.shape.group = PROJECTILE_TYPE;
+
+        sprite.shape.setFriction(0);
+        sprite.shape.setElasticity(0);
 
         this.sprite = sprite;
         this.addChild(sprite);
